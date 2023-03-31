@@ -7,7 +7,7 @@
         <h1><a href="https://www.astica.org/?fr=vision-analyze"><img src="asset/img/icon.png" id="astica_icon_head"></a> astica Javascript Client API: Vision - Describe Image</h1>
         <hr>
             <label for="astica_ML_apikey"><b>Step 1:</b> API Key <a href="https://astica.org/" target="_blank" title="Get API Key" style="font-size:12px; margin-left: 15px;">Obtain your API Key</a></label>
-            <input type="text" id="astica_ML_apikey" placeholder="Enter your API Key" value="A0DECC3F-9DBF-45FD-BB29-7645E93A29DE" >           
+            <input type="text" id="astica_ML_apikey" placeholder="Enter your API Key" value="" >           
            
            <label for="astica_ML_apikey"><b>Step 2:</b> Choose Model Version</label>
             <select id="astica_ML_version">
@@ -85,15 +85,28 @@
         <br><br><hr><h2>asticaVision - Image Description Usage:</h2>
         <pre>&lt;script src="<span class="color-lightblue bold">https://www.astica.org/endpoint/ml/javascript/latest/astica.api.js</span>"&gt;&lt;/script&gt;
 &lt;script&gt;
-    asticaAPI_start('API KEY HERE');
+    asticaAPI_start('API KEY HERE'); //run at least once
+    
+    //simple
+    asticaVision_describe('https://www.astica.org/inputs/analyze_3.jpg');
+    
+    //advanced:
     asticaVision_describe(
         '1.0_full', //modelVersion: 1.0_full, 2.0_full
         'IMAGE URL', //Input Image
-        'Description, Faces' //Description, Moderate, Faces Celebrities, Landmarks
-        asticaVision_result, //Callback function
-    );      
-    function asticaVision_result(data) { console.log(data); } //receive output
-    function asticaVision_error(data)  { console.log(data); } //catch error
+        'Description,Moderate,Faces', //or 'all'
+        astica_defaultCB, //Your Callback function
+    );  
+    
+    //receive output using; default callback. Or set your own.   
+    function astica_defaultCB(data) { console.log(data); } 
+    
+    //alternatively:
+    asticaVision_analyze('Image URL', 'Objects');
+    
+    //Selectively:
+    asticaVision_analyze('Image URL', 'Description,Faces,Objects');
+    
 &lt;/script&gt;
 </pre>  
 
