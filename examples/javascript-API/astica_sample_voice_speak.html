@@ -1,0 +1,78 @@
+<html>
+    <head>
+        <title>astica Javascript Client API: Voice - Synthesis (TTS)</title>
+        <script src="https://www.astica.org/endpoint/ml/javascript/latest/astica.api.js"></script>  
+    </head>
+    <body>
+        <h1><a href="https://www.astica.org/?fr=vision-analyze"><img src="asset/img/icon.png" id="astica_icon_head"></a> astica Javascript Client API: Voice - Synthesis (TTS)</h1>
+        <label for="astica_ML_apikey"><b>Step 1:</b> API Key <a href="https://astica.org/" target="_blank" title="Get API Key" style="font-size:12px; margin-left: 15px;">Obtain your API Key</a></label>
+        <input type="text" id="astica_ML_apikey" placeholder="Enter your API Key" value="A0DECC3F-9DBF-45FD-BB29-7645E93A39DE">
+        <label for="astica_ML_apikey"><b>Step 2:</b> Choose Model Version</label>
+        <select id="astica_ML_version">
+            <option value="1.0_full">1.0_full</option>
+        </select>  
+        <label for="astica_ML_apikey"><b>Step 3:</b> Choose Voice</label>
+        <select id="astica_ML_voice_select">
+            <option value="0">Default</option>
+        </select>
+        <label for="astica_ML_voice_input"><b>Step 4:</b> Type the Text to be Spoken</label>
+        <textarea id="astica_ML_voice_input" style="" placeholder="Type the text to be spoken text here.."></textarea>
+        <button onclick="asticaVoice_speakExample();">Synthesize Speech</button>
+    
+        <script>   
+            function asticaVoice_speakExample() {
+                asticaAPI_start(document.getElementById("astica_ML_apikey").value); //only needs to be called once.      
+                asticaVoice_speak(
+                    document.getElementById("astica_ML_version").value,
+                    document.getElementById("astica_ML_voice_input").value,
+                    'en-US',                    
+                    document.getElementById("astica_ML_voice_select").value,
+                    your_astica_CallBack
+                );                
+            } 
+            var result;
+            function your_astica_CallBack(data) {                  
+                console.log('astica callback');  
+                console.log(data); //view all data
+                result = data;
+            }	
+                
+                
+        </script>
+        
+        
+        <br><br><hr><h2>asticaVision - Voice Synthesis Usage:</h2>
+        <pre>&lt;script src="<span class="color-lightblue bold">https://www.astica.org/endpoint/ml/javascript/latest/astica.api.js</span>"&gt;&lt;/script&gt;
+&lt;script&gt;
+    var asticaTranscribeFile_input = document.getElementById('astica_ML_voice_input');                
+    document.addEventListener("DOMContentLoaded", () => {                    
+        asticaTranscribeFile_input.addEventListener("change", function () {
+            asticaTranscribeFile = asticaTranscribeFile_input.files[0];
+        });
+    });
+    function asticaVoice_transcribeExample() {
+        asticaAPI_start('YOUR API KEY); //only needs to be called once.                      
+        asticaVoice_speak(
+            '1.0_full'
+            'Hi! It is nice to meet you.',
+            'en-US', 
+            0, 
+            your_astica_CallBack
+        );               
+    } 
+    function your_astica_CallBack(data) {                  
+        console.log('astica callback');            
+        document.getElementById("astica_ML_voice_output").value = data.text;
+        console.log(data); //view all data
+    }	
+&lt;/script&gt;
+</pre>      
+
+        <!--- Demo assets; non-API related --->
+        <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">  
+        <a href="https://www.astica.org/?fr=voice-speak"><img src="asset/img/icon.png" id="astica_icon"></a>
+        
+        <link href="asset/css/style.css" rel="stylesheet">  
+        <link href="asset/js/demo.js" rel="stylesheet"> 
+    </body>
+</html>

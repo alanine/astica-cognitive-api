@@ -1,0 +1,90 @@
+body {
+    color: #888ea8;
+    height: 100%;
+    font-size: 0.875rem;
+    background: #f1f2f3;
+    overflow-x: hidden;
+    overflow-y: auto;
+    letter-spacing: 0.0312rem;
+    font-family: 'Quicksand', sans-serif;
+}
+label, button { display:block; width:400px; margin-top:20px; }
+input, select { width:400px; padding:5px; border-radius:4px; margin-top:4px;}
+input::placeholder { color:#d3d3d3;} 
+textarea { width:400px; margin-top:15px; min-height:120px; }
+h1 { font-size: 1.4rem;  }
+img { border:2px solid #EC6623; }
+pre { 
+    border:2px solid #A5E3D5; 
+    width: auto;
+    display:inline-block;
+    border-radius:6px; 
+    background-color:#1e1e1e;
+    color:#eee;
+    padding:20px; 
+ }
+#astica_ML_version { width:120px; }
+#astica_icon { border:none; position:fixed; bottom: 20px; right: 20px; opacity:0.4; max-width:30px; display:block; margin:0px 0px; }
+#astica_icon_head { border:none; width:50px; }
+
+button {
+        display:block!important;
+        -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    --blue: #007bff;
+    --indigo: #6610f2;
+    --purple: #6f42c1;
+    --pink: #e83e8c;
+    --red: #dc3545;
+    --orange: #fd7e14;
+    --yellow: #ffc107;
+    --green: #28a745;
+    --teal: #20c997;
+    --cyan: #17a2b8;
+    --white: #fff;
+    --gray: #6c757d;
+    --gray-dark: #343a40;
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+    --font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    letter-spacing: 0.0312rem;
+    font-family: 'Quicksand', sans-serif;
+    -webkit-box-direction: normal;
+    box-sizing: border-box;
+    outline: none;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    line-height: 1.5;
+    border-radius: .25rem;
+    padding: 0.4375rem 1.25rem;
+    text-shadow: none;
+    font-size: 14px;
+    font-weight: normal;
+    white-space: normal;
+    word-wrap: break-word;
+    touch-action: manipulation;
+    will-change: opacity, transform;
+    -webkit-transition: all 0.3s ease-out;
+    text-decoration: none;
+    transform: translateY(-3px);
+    color: #fff !important;
+    background-color: #1abc9c;
+    box-shadow: none;
+    border-color: #1abc9c;
+    cursor: pointer;
+}
