@@ -21,7 +21,11 @@
     
         <script>   
             function asticaVoice_speakExample() {
-                asticaAPI_start(document.getElementById("astica_ML_apikey").value); //only needs to be called once.      
+                if(document.getElementById("astica_ML_apikey").value == '') { 
+                    alert("Please provide your astica.org API key");
+                    return;
+                }               
+               asticaAPI_start(document.getElementById("astica_ML_apikey").value); //only needs to be called once
                 asticaVoice_speak(
                     document.getElementById("astica_ML_version").value,
                     document.getElementById("astica_ML_voice_input").value,

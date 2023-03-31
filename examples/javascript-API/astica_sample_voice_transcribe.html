@@ -19,7 +19,7 @@
         <button onclick="asticaVoice_transcribeFile_test();">Transcribe File</button>
      
         <hr>
-        <label for="astica_ML_voice_input"><b>Step 3: Option 2</b> Provide URL to transcribe:</label>
+        <label for="astica_ML_voice_input"><b>Step 3: Option 2</b> Provide URL to transcribe (.wav):</label>
         <input type="text" id="astica_ML_voice_input_url" placeholder="https://" value="https://www.astica.org/endpoint/ml/inputs/audio/sample_1.wav">
         <button onclick="asticaVoice_transcribeURL_test();">Transcribe URL</button>
      
@@ -27,16 +27,23 @@
         <textarea id="astica_ML_voice_output" style="display:none;"></textarea>
            
          <script>   
+            /*
+                Option A: Transcribe file from input
+            */
             var asticaTranscribeFile_input = document.getElementById('astica_ML_voice_input');                
             document.addEventListener("DOMContentLoaded", () => {                    
                 asticaTranscribeFile_input.addEventListener("change", function () {
                     asticaTranscribeFile = asticaTranscribeFile_input.files[0];
                 });
             });
+            
             function asticaVoice_transcribeFile_test() {
+                if(document.getElementById("astica_ML_apikey").value == '') { 
+                    alert("Please provide your astica.org API key");
+                    return;
+                }               
+                asticaAPI_start(document.getElementById("astica_ML_apikey").value); //only needs to be called once. 
                 document.getElementById("astica_ML_voice_output").value = '';
-                asticaAPI_start(document.getElementById("astica_ML_apikey").value); //only needs to be called once.                   
-                //asticaHearing_file_js(asticaTranscribeFile, 'astica_ML_voice_output', 250);  
                 asticaHearing_file(
                     document.getElementById("astica_ML_version").value,
                     asticaTranscribeFile,
@@ -47,10 +54,16 @@
                 document.getElementById("astica_ML_voice_output").style.display = 'block';                
                 document.getElementById("astica_ML_voice_output").value = "Loading..";           
             } 
+            /*
+                Option B: Transcribe from URL
+            */
             function asticaVoice_transcribeURL_test() {
-                document.getElementById("astica_ML_voice_output").value = '';
+                if(document.getElementById("astica_ML_apikey").value == '') { 
+                    alert("Please provide your astica.org API key");
+                    return;
+                }               
                 asticaAPI_start(document.getElementById("astica_ML_apikey").value); //only needs to be called once.                   
-                //asticaHearing_file_js(asticaTranscribeFile, 'astica_ML_voice_output', 250);  
+                document.getElementById("astica_ML_voice_output").value = '';
                 asticaHearing_url(
                     document.getElementById("astica_ML_version").value,
                     document.getElementById("astica_ML_voice_input_url").value,
