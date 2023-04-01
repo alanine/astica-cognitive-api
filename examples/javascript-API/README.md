@@ -43,9 +43,9 @@
     <br />
     <br />
     <a href="https://www.astica.org/code-examples/javascript-API/asticaVision_sample.html" title="asticaVision demo">Vision Demo</a>
-    ·
+    Â·
     <a href="https://www.astica.org/code-examples/javascript-API/asticaListen_sample.html" title="asticaListen demo">Listen Demo</a>
-    ·
+    Â·
     <a href="https://www.astica.org/code-examples/javascript-API/asticaVoice_sample.html" title="asticaVoice demo">Voice Demo</a>
   </p>
 </div>
@@ -61,8 +61,7 @@ These demonstrations require an API key for the astica.org cognitive API. You ca
 
 ### Quick Start
 
-This is an example of how to list things you need to use the software and how to install them.
-* authentication:
+
   ```js
 <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
 <script>
