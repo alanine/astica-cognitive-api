@@ -43,9 +43,9 @@
     <br />
     <br />
     <a href="https://www.astica.org/code-examples/javascript-API/asticaVision_sample.html" title="asticaVision demo">Vision Demo</a>
-    Â·
+    ·
     <a href="https://www.astica.org/code-examples/javascript-API/asticaListen_sample.html" title="asticaListen demo">Listen Demo</a>
-    Â·
+    ·
     <a href="https://www.astica.org/code-examples/javascript-API/asticaVoice_sample.html" title="asticaVoice demo">Voice Demo</a>
   </p>
 </div>
@@ -177,7 +177,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://www.astica.org/endpoint/ml/javascript/latest/astica.api.js"></script>
+    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
     <script>
         var asticaTranscribeFile_input = document.getElementById('astica_ML_voice_input');     
         var asticaTranscribeFile_localData;
