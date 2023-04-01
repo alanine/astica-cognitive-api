@@ -89,7 +89,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-<script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
+    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
    ```
    
 3. Authenticate:
@@ -104,98 +104,98 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-<script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
-<script>
-    asticaAPI_start('API KEY HERE'); //run at least once    
+    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
+    <script>
+        asticaAPI_start('API KEY HERE'); //run at least once    
 
-   
-    //Example 1:   
-    asticaVision_analyze('Image URL', 'Objects'); //simple computer vision  
-    //Example 2:   
-    asticaVision_analyze('Image URL', 'Description,Faces,Objects'); //with options:
-  
-    //Example 3:   
-    asticaVision_describe('https://www.astica.org/inputs/analyze_3.jpg'); //advanced, simple
-    
-    //Example 4:      
-    //advanced with parameters:
-    asticaVision_describe(
-        '1.0_full', //modelVersion: 1.0_full, 2.0_full
-        'IMAGE URL', //Input Image
-        'Description,Moderate,Faces', //or 'all'
-        your_astica_CallBack, //Your Custom Callback function
-    ); 
-    
-    //Set Your Custom Callback Function 
-	function your_astica_CallBack(data) {   
-        if(typeof data.error != 'undefined') { alert(data.error); }         
-        console.log(data); //view all data
-    }	   
-</script>
+       
+        //Example 1:   
+        asticaVision_analyze('Image URL', 'Objects'); //simple computer vision  
+        //Example 2:   
+        asticaVision_analyze('Image URL', 'Description,Faces,Objects'); //with options:
+      
+        //Example 3:   
+        asticaVision_describe('https://www.astica.org/inputs/analyze_3.jpg'); //advanced, simple
+        
+        //Example 4:      
+        //advanced with parameters:
+        asticaVision_describe(
+            '1.0_full', //modelVersion: 1.0_full, 2.0_full
+            'IMAGE URL', //Input Image
+            'Description,Moderate,Faces', //or 'all'
+            your_astica_CallBack, //Your Custom Callback function
+        ); 
+        
+        //Set Your Custom Callback Function 
+        function your_astica_CallBack(data) {   
+            if(typeof data.error != 'undefined') { alert(data.error); }         
+            console.log(data); //view all data
+        }	   
+    </script>
    ```
    
 5. Using asticaListen with remote File:
 
 
    ```js
-<script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
-<script>
-    //simple usage
-    function asticaListen_Sample_simple() {  
-        asticaListen_url('https://www.astica.org/endpoint/ml/inputs/audio/sample_1.wav'); 
-    }       
-    setTimeout(function() { 
-        asticaAPI_start('API KEY HERE'); //run at least once    
-        asticaListen_Sample_simple();  
-    }, 2000);
-    
-    
-    //with parameters:
-    function asticaListen_Sample() {  
+    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
+    <script>
+        //simple usage
+        function asticaListen_Sample_simple() {  
+            asticaListen_url('https://www.astica.org/endpoint/ml/inputs/audio/sample_1.wav'); 
+        }       
+        setTimeout(function() { 
+            asticaAPI_start('API KEY HERE'); //run at least once    
+            asticaListen_Sample_simple();  
+        }, 2000);
         
-        var astica_modelVersion = '1.0_full';
-        var astica_modelInput = 'https://www.astica.org/endpoint/ml/inputs/audio/sample_1.wav';
-     
-        //With default callback:
-        asticaListen_url(astica_modelVersion, astica_modelInput); 
         
-        //With custom callback function:
-        asticaListen_url(astica_modelVersion, astica_modelInput, your_astica_CallBack);          
-    }    
-    function your_astica_CallBack(data) {   
-        if(typeof data.error != 'undefined') { alert(data.error); }         
-        console.log(data); //view all data
-    }	
-    setTimeout(function() { 
-        asticaAPI_start('API KEY HERE'); //run at least once    
-        asticaListen_Sample(); 
-    }, 1000);
-</script>
+        //with parameters:
+        function asticaListen_Sample() {  
+            
+            var astica_modelVersion = '1.0_full';
+            var astica_modelInput = 'https://www.astica.org/endpoint/ml/inputs/audio/sample_1.wav';
+         
+            //With default callback:
+            asticaListen_url(astica_modelVersion, astica_modelInput); 
+            
+            //With custom callback function:
+            asticaListen_url(astica_modelVersion, astica_modelInput, your_astica_CallBack);          
+        }    
+        function your_astica_CallBack(data) {   
+            if(typeof data.error != 'undefined') { alert(data.error); }         
+            console.log(data); //view all data
+        }	
+        setTimeout(function() { 
+            asticaAPI_start('API KEY HERE'); //run at least once    
+            asticaListen_Sample(); 
+        }, 1000);
+    </script>
    ```
    
 6. Using asticaListen with local File:
 
 
    ```js
-<script src="https://www.astica.org/endpoint/ml/javascript/latest/astica.api.js"></script>
-<script>
-    var asticaTranscribeFile_input = document.getElementById('astica_ML_voice_input');     
-    var asticaTranscribeFile_localData;
-    document.addEventListener("DOMContentLoaded", () => {                    
-        asticaTranscribeFile_input.addEventListener("change", function () {
-            asticaTranscribeFile = asticaTranscribeFile_input.files[0];
+    <script src="https://www.astica.org/endpoint/ml/javascript/latest/astica.api.js"></script>
+    <script>
+        var asticaTranscribeFile_input = document.getElementById('astica_ML_voice_input');     
+        var asticaTranscribeFile_localData;
+        document.addEventListener("DOMContentLoaded", () => {                    
+            asticaTranscribeFile_input.addEventListener("change", function () {
+                asticaTranscribeFile = asticaTranscribeFile_input.files[0];
+            });
         });
-    });
-    function asticaVoice_transcribeFile_test() {
-        asticaAPI_start(document.getElementById("astica_ML_apikey").value); //only needs to be called once.   
-        asticaListen_file('1.0_full', asticaTranscribeFile, your_astica_CallBack);                
-    } 
-    function your_astica_CallBack(data) {     
-        if(typeof data.error != 'undefined') { alert(data.error); return; }
-        console.log(data);
-    }	
-    //view all data
-</script>
+        function asticaVoice_transcribeFile_test() {
+            asticaAPI_start(document.getElementById("astica_ML_apikey").value); //only needs to be called once.   
+            asticaListen_file('1.0_full', asticaTranscribeFile, your_astica_CallBack);                
+        } 
+        function your_astica_CallBack(data) {     
+            if(typeof data.error != 'undefined') { alert(data.error); return; }
+            console.log(data);
+        }	
+        //view all data
+    </script>
 
 
    ```
@@ -204,43 +204,43 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-<script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
-<script>
-    asticaAPI_start('API KEY HERE'); //only needs to be called once.        
-    
-    //Simple usage:  
-    
-    asticaVoice_speak('Hi! How are you doing today?');
-    
-    
-    //Specify a voice id:
-    
-    asticaVoice_speak('Hi! How are you doing today?', 5);
-    
-    //With custom callback:
-    
-    asticaVoice_speak('Hi! How are you doing today?', 5, your_astica_CallBack);   
-    function your_astica_CallBack(data) {     
-        if(typeof data.error != 'undefined') { alert(data.error); return; }      
-    }	
-      
-      
-    //With function and paramaters:
-    
-    function asticaVoice_sayWords(string) {
-        asticaVoice_speak(
-            '1.0_full'
-            string,
-            'en-US', 
-            0, 
-            your_astica_CallBack
-        );               
-    } 
-    setTimeout(function() { 
-        asticaAPI_start('API KEY HERE'); //only needs to be called once.   
-        asticaVoice_sayWords('Hi! How are you doing?); 
-    }, 1000);
-</script>
+    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
+    <script>
+        asticaAPI_start('API KEY HERE'); //only needs to be called once.        
+        
+        //Simple usage:  
+        
+        asticaVoice_speak('Hi! How are you doing today?');
+        
+        
+        //Specify a voice id:
+        
+        asticaVoice_speak('Hi! How are you doing today?', 5);
+        
+        //With custom callback:
+        
+        asticaVoice_speak('Hi! How are you doing today?', 5, your_astica_CallBack);   
+        function your_astica_CallBack(data) {     
+            if(typeof data.error != 'undefined') { alert(data.error); return; }      
+        }	
+          
+          
+        //With function and paramaters:
+        
+        function asticaVoice_sayWords(string) {
+            asticaVoice_speak(
+                '1.0_full'
+                string,
+                'en-US', 
+                0, 
+                your_astica_CallBack
+            );               
+        } 
+        setTimeout(function() { 
+            asticaAPI_start('API KEY HERE'); //only needs to be called once.   
+            asticaVoice_sayWords('Hi! How are you doing?); 
+        }, 1000);
+    </script>
    ```
    
 
