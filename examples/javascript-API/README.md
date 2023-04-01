@@ -86,14 +86,23 @@ _Get started by including the astica.api.js within your project._
 
 1. Get your API Key at [https://example.com](https://astica.org)
 2. Add the astica javascript API to your project:
+
+
    ```js
 <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
    ```
+   
 3. Authenticate:
+
+
    ```js
    asticaAPI_start('API KEY HERE'); //only needs to be called once.      
    ```
+   
 4. Using asticaVision:
+
+
+
    ```js
 <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
 <script>
@@ -124,7 +133,10 @@ _Get started by including the astica.api.js within your project._
     }	   
 </script>
    ```
+   
 5. Using asticaListen with remote File:
+
+
    ```js
 <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
 <script>
@@ -160,7 +172,10 @@ _Get started by including the astica.api.js within your project._
     }, 1000);
 </script>
    ```
+   
 6. Using asticaListen with local File:
+
+
    ```js
 <script src="https://www.astica.org/endpoint/ml/javascript/latest/astica.api.js"></script>
 <script>
@@ -181,8 +196,13 @@ _Get started by including the astica.api.js within your project._
     }	
     //view all data
 </script>
+
+
    ```
+   
 7. Using asticaVoice:
+
+
    ```js
 <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
 <script>
@@ -222,6 +242,7 @@ _Get started by including the astica.api.js within your project._
     }, 1000);
 </script>
    ```
+   
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
