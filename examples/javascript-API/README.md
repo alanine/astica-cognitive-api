@@ -68,8 +68,8 @@ These demonstrations require an API key for the astica.org cognitive API. You ca
     asticaAPI_start('API KEY HERE'); //only needs to be called once.        
     
     //Simple Vision:      
-    asticaVision_analyze('Image URL', 'Objects'); //simple computer vision  
-    asticaVision_analyze('Image URL', 'Description,Faces,Objects'); //with options:
+    asticaVision_describe('Image URL', 'Objects'); //simple computer vision  
+    asticaVision_describe('Image URL', 'Description,Faces,Objects'); //with options:
     
     //Simple Listen:      
     asticaListen_url('https://www.astica.org/endpoint/ml/inputs/audio/sample_1.wav'); 
