@@ -1,0 +1,158 @@
+<html>
+    <head>
+        <title>asticaVoice: Synthesis - Javascript Client API</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="asset/img/favi/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="asset/img/favi/favicon-32x32.png"> 
+        <link rel="icon" type="image/png" sizes="16x16" href="asset/img/favi/favicon-16x16.png">
+        
+        <!-- include astica javascript api version 2023-04-01 -->
+        <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>     
+    </head>
+    <body>
+        <h1><a href="https://www.astica.org/?fr=vision-analyze"><img src="asset/img/icon.png" id="astica_icon_head"></a> asticaVoice: Synthesis - Javascript Client API</h1>
+        <a href="https://www.astica.org/code-examples/javascript-API/asticaVision_sample.html" class="explore_astica">asticaVision</a>
+        <a href="https://www.astica.org/code-examples/javascript-API/asticaListen_sample.html" class="explore_astica">asticaListen</a>
+        <a href="https://www.astica.org/code-examples/javascript-API/asticaVoice_sample.html" class="explore_astica explore_astica_active">asticaVoice</a>
+        <hr style="margin-top:15px;">
+        <label for="astica_ML_apikey"><b>Step 1:</b> API Key <a href="https://astica.org/" target="_blank" title="Get API Key" style="font-size:12px; margin-left: 15px;">Obtain your API Key</a></label>
+        <input type="text" id="astica_ML_apikey" placeholder="Enter your API Key" value="">
+        <label for="astica_ML_apikey"><b>Step 2:</b> Choose Model Version</label>
+        <select id="astica_ML_version">
+            <option value="1.0_full">1.0_full</option>
+        </select>  
+        <label for="astica_ML_apikey"><b>Step 3:</b> Choose Voice</label>
+        <select id="astica_ML_voice_select">
+            <option value="0">Default Voice  (US Female)</option>								
+            <option value="0">----- American:</option>
+            <option value="1">Jenny (US Female)</option>
+            <option value="2">Nancy (US Female)</option>
+            <option value="3">Jane (US Female)</option>	
+            <option value="4">*Davis (US Male)</option>
+            <option value="5">Jerry (US Male)</option>
+            <option value="6">Christopher (US Male)</option>
+            <option value="7">Brandon (US Male)</option>
+            <option value="8">Roger (US Male)</option>
+            <option value="9">Steffan (US Male)</option>	           
+            <option value="">----- Australian</option>		
+            <option value="10">Darren (AU Male)</option>	
+            <option value="11">Ken (AU Male)</option>	
+            <option value="12">Neil (AU Male)</option>	
+            <option value="13">Tim (AU Male)</option>	
+            <option value="14">Elsie (AU Female)</option>	
+            <option value="15">Kim (AU Female)</option>	
+            <option value="16">Natasha (AU Female)</option>	
+            <option value="17">Tina (AU Female)</option>	
+            <option value="0">----- England</option>					
+            <option value="18">Olivia (UK Female)</option>
+            <option value="19">Sonia (UK Female)</option>
+            <option value="20">Bella (UK Female)</option>
+            <option value="21">Abbi (UK Female)</option>													
+            <option value="22">Alfie (UK Male)</option>						
+            <option value="23">Elliot (UK Male)</option>						
+            <option value="24">Ethan (UK Male)</option>						
+            <option value="25">Oliver (UK Male)</option>						
+            <option value="26">Ryan (UK Male)</option>						
+            <option value="27">Thomas (UK Male)</option>	
+            <option value="0">----- Children:</option>
+            <option value="501">Ana (US Female) (Child)</option>
+            <option value="502">Maisie (UK Female) (Child)</option>					
+            <option value="503">Carly (AU Female) (Child)</option>					
+            <option value="0">----- French:</option>
+            <option value="2000">Alaine (Male) (French)</option>
+            <option value="2001">Henri (Male) (French)</option>
+            <option value="2002">Denise (Female) (French)</option>
+            <option value="2003">Coralie (Female) (French)</option>			
+            <option value="0">----- French Canadian:</option>
+            <option value="3000">Jean (Male) (French Canadian)</option>
+            <option value="3001">Antoine (Male) (French Canadian)</option>
+            <option value="3002">Sylvie (Female) (French Canadian)</option>		
+            <option value="0">----- Indian:</option>			
+            <option value="4000">Prabhat (Indian Male) (English)</option>			
+            <option value="4001">Neerja (Indian Female) (English)</option>		
+            <option value="0">----- Nigerian:</option>			
+            <option value="5000">Abeo (Nigerian Male) (English)</option>	
+            <option value="5001">Ezinne (Nigerian Female) (English)</option>		
+        </select>
+        <label for="astica_ML_apikey"><b>Step 4:</b> Choose Language</label>
+        <input type="text" id="astica_ML_lang" placeholder="en-US" value="en-US">
+        
+        <span style="display:block; margin-top:10px; font-size:12px;">100+ Supported Language Codes (en-US, fr-CA, fr-FR)</span>
+        <label for="astica_ML_voice_input"><b>Step 5:</b> Type the Text to be Spoken</label>
+        <textarea id="astica_ML_voice_input" style="" placeholder="Type the text to be spoken text here.."></textarea>
+        <button onclick="asticaVoice_Example();">Synthesize Speech</button>
+        
+        <script>   
+            function asticaVoice_Example() {
+                if(document.getElementById("astica_ML_apikey").value == '') { 
+                    alert("Please provide your astica.org API key");
+                    return;
+                }               
+               asticaAPI_start(document.getElementById("astica_ML_apikey").value); //only needs to be called once
+                asticaVoice_speak(
+                    document.getElementById("astica_ML_version").value,
+                    document.getElementById("astica_ML_voice_input").value,
+                    document.getElementById("astica_ML_lang").value,
+                    document.getElementById("astica_ML_voice_select").value,
+                    your_astica_CallBack
+                );                
+            } 
+            var result;
+            function your_astica_CallBack(data) { 
+                if(typeof data.error != 'undefined') { alert(data.error); return; }              
+                console.log('astica callback');  
+                console.log(data); //view all data
+                result = data;
+            }	
+        </script>
+        
+        
+        
+        
+        
+        <br><br><hr><h2>asticaVision - Voice Synthesis Usage:</h2>
+        <pre>&lt;script src="<span class="color-lightblue bold">https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js</span>"&gt;&lt;/script&gt;
+&lt;script&gt;
+    asticaAPI_start('API KEY HERE'); //only needs to be called once.        
+    
+    //Simple usage:  
+    
+    asticaVoice_speak('Hi! How are you doing today?');
+    
+    
+    //Specify a voice id:
+    
+    asticaVoice_speak('Hi! How are you doing today?', 5);
+    
+    //With custom callback:
+    
+    asticaVoice_speak('Hi! How are you doing today?', 5, your_astica_CallBack);   
+    function your_astica_CallBack(data) {     
+        if(typeof data.error != 'undefined') { alert(data.error); return; }      
+    }	
+      
+      
+    //With function and paramaters:
+    
+    function asticaVoice_sayWords(string) {
+        asticaVoice_speak(
+            '1.0_full'
+            string,
+            'en-US', 
+            0, 
+            your_astica_CallBack
+        );               
+    } 
+    setTimeout(function() { 
+        asticaAPI_start('API KEY HERE'); //only needs to be called once.   
+        asticaVoice_sayWords('Hi! How are you doing?); 
+    }, 1000);
+&lt;/script&gt;
+</pre>      
+
+        <!--- Demo assets; non-API related --->
+        <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">  
+        <a href="https://www.astica.org/?fr=voice-speak"><img src="asset/img/icon.png" id="astica_icon"></a>        
+        <link href="asset/css/style.css" rel="stylesheet">  
+        <link href="asset/js/demo.js" rel="stylesheet"> 
+    </body>
+</html>

@@ -1,0 +1,139 @@
+<html>
+    <head>
+        <title>asticaVision: Describe Image - Javascript Client API</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="asset/img/favi/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="asset/img/favi/favicon-32x32.png"> 
+        <link rel="icon" type="image/png" sizes="16x16" href="asset/img/favi/favicon-16x16.png">
+        
+        <!-- include astica javascript api version 2023-04-01 -->
+        <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>          
+    </head>
+    <body>
+        <h1><a href="https://www.astica.org/?fr=vision-analyze"><img src="asset/img/icon.png" id="astica_icon_head"></a> asticaVision: Describe Image - Javascript Client API</h1>
+        Explore: 
+        <a href="https://www.astica.org/code-examples/javascript-API/asticaVision_sample.html" class="explore_astica explore_astica_active">asticaVision</a>
+        <a href="https://www.astica.org/code-examples/javascript-API/asticaListen_sample.html" class="explore_astica">asticaListen</a>
+        <a href="https://www.astica.org/code-examples/javascript-API/asticaVoice_sample.html" class="explore_astica">asticaVoice</a>
+        <hr style="margin-top:15px;">
+            <label for="astica_ML_apikey"><b>Step 1:</b> API Key <a href="https://astica.org/" target="_blank" title="Get API Key" style="font-size:12px; margin-left: 15px;">Obtain your API Key</a></label>
+            <input type="text" id="astica_ML_apikey" placeholder="Enter your API Key" value="" >           
+           
+           <label for="astica_ML_apikey"><b>Step 2:</b> Choose Model Version</label>
+            <select id="astica_ML_version">
+                <option value="1.0_full">1.0_full</option>
+                <option value="2.0_full">2.0_full</option>
+            </select>
+         
+            <label for="astica_ML_apikey"><b>Step 3:</b> Describe Parameters</label>
+            <input type="text" id="astica_ML_options" placeholder="Description, Moderate, Objects, Categories," value="" >
+            <small style="display:block; margin-top:5px;">Comma separated, leave blank for all</small>
+            <div style="margin-left:50px; margin-top:20px;">
+                <b style="display:block; margin-bottom:5px;">'1.0_full' supported options:</b>               
+                <li>description</li>
+                <li>objects</li>
+                <li>categories</li>
+                <li>moderate</li>
+                <li>tags</li>
+                <li>brands</li>
+                <li>color</li>
+                <li>faces</li>
+                <li>celebrities</li>
+                <li>landmarks</li>
+                
+                <b style="display:block;margin:15px 0px 5px;">'2.0_full' supported options:</b>
+                <li>description</li>
+                <li>describeAll</li>
+                <li>tags</li>
+                <li>objects</li>
+                <li>people</li>
+                <li>OCR</li>
+            </div>
+            
+            <label for="astica_ML_apikey"><b>Step 4:</b> Enter Image URL</label><br>
+            <input type="text" id="astica_ML_analyze_input" placeholder="https://" value="https://www.astica.org/inputs/analyze_3.jpg">
+            
+            <button onclick="asticaVision_describeExample();">Describe Image</button>
+            <img src="https://www.astica.org/img/icon.png" id="astica_ML_vision_input" style="display: none; width:300px;  margin:40px 0px;"></textarea>
+            
+            <h2 id="astica_ML_vision_output_title" style="display:none;">asticaVision Output:</h2>
+            <pre id="astica_ML_vision_output" style="display:none;"></pre>
+             
+        <script>
+            function asticaVision_describeExample() {
+                if(document.getElementById("astica_ML_apikey").value == '') { 
+                    alert("Please provide your astica.org API key");
+                    return;
+                }               
+                asticaAPI_start(document.getElementById("astica_ML_apikey").value); //only needs to be called once.               
+                document.getElementById("astica_ML_vision_output").innerHTML = '';                
+                document.getElementById("astica_ML_vision_input").src = document.getElementById("astica_ML_analyze_input").value                            
+                
+                var astica_ML_options = document.getElementById("astica_ML_options").value; 
+                if(astica_ML_options == '') { astica_ML_options = 'all'; }
+                console.log(astica_ML_options);
+                asticaVision_describe(
+                    document.getElementById("astica_ML_version").value,
+                    document.getElementById("astica_ML_analyze_input").value,
+                    astica_ML_options,
+                    your_astica_CallBack,
+                );   
+            }  
+            function your_astica_CallBack(data) {             
+                document.getElementById("astica_ML_vision_output_title").style.display = 'block';
+                document.getElementById("astica_ML_vision_output").style.display = 'block';
+                document.getElementById("astica_ML_vision_input").style.display = 'block';
+                document.getElementById("astica_ML_vision_output").textContent = JSON.stringify(data, null, 2);
+                document.getElementById("astica_ML_vision_output").scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+                console.log(data); //view all data
+            }	
+        </script> 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <br><br><hr><h2>asticaVision - Image Description Usage:</h2>
+        <pre>&lt;script src="<span class="color-lightblue bold">https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js</span>"&gt;&lt;/script&gt;
+&lt;script&gt;
+    asticaAPI_start('API KEY HERE'); //run at least once    
+
+   
+    //Example 1:   
+    asticaVision_analyze('Image URL', 'Objects'); //simple computer vision  
+    //Example 2:   
+    asticaVision_analyze('Image URL', 'Description,Faces,Objects'); //with options:
+  
+    //Example 3:   
+    asticaVision_describe('https://www.astica.org/inputs/analyze_3.jpg'); //advanced, simple
+    
+    //Example 4:      
+    //advanced with parameters:
+    asticaVision_describe(
+        '1.0_full', //modelVersion: 1.0_full, 2.0_full
+        'IMAGE URL', //Input Image
+        'Description,Moderate,Faces', //or 'all'
+        your_astica_CallBack, //Your Custom Callback function
+    ); 
+    
+    //Set Your Custom Callback Function 
+	function your_astica_CallBack(data) {   
+        if(typeof data.error != 'undefined') { alert(data.error); }         
+        console.log(data); //view all data
+    }	   
+&lt;/script&gt;
+</pre>  
+
+        
+        <!--- Demo assets; non-API related --->
+        <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">  
+        <a href="https://www.astica.org/?fr=vision-analyze"><img src="asset/img/icon.png" id="astica_icon"></a>
+        <link href="asset/css/style.css" rel="stylesheet">  
+        <link href="asset/js/demo.js" rel="stylesheet">             
+    </body>
+</html>
