@@ -19,11 +19,12 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 
+
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://astica.org">
-    <img src="asset/img/icon.png" alt="astica" width="80" height="80">
+    <img src="examples/javascript-API/asset/img/icon.png" alt="astica" width="80" height="80">
   </a>
 
   <h3 align="center">astica Cognitive API - Javascript</h3>
@@ -39,6 +40,8 @@
     <a href="https://www.astica.org/code-examples/javascript-API/asticaListen_sample.html" title="asticaListen demo">Listen Demo</a>
     ·
     <a href="https://www.astica.org/code-examples/javascript-API/asticaVoice_sample.html" title="asticaVoice demo">Voice Demo</a>
+    ·
+    <a href="https://www.astica.org/code-examples/javascript-API/asticaGPT_sample.html" title="asticaGPT demo">GPT-S Demo</a>
   </p>
 </div>
 
@@ -60,14 +63,14 @@ These demonstrations require an API key for the astica.org cognitive API. You ca
     asticaAPI_start('API KEY HERE'); //only needs to be called once.        
     
     //Simple Vision:      
-    asticaVision_describe('Image URL', 'Objects'); //simple computer vision  
-    asticaVision_describe('Image URL', 'Description,Faces,Objects'); //with options:
+    asticaVisione('Image URL', 'Objects'); //simple computer vision  
+    asticaVision('Image URL', 'Description,Faces,Objects'); //with options:
     
     //Simple Listen:      
-    asticaListen_url('https://www.astica.org/endpoint/ml/inputs/audio/sample_1.wav'); 
+    asticaListen('https://www.astica.org/endpoint/ml/inputs/audio/sample_1.wav'); 
     
     //Simple Voice:      
-    asticaVoice_speak('Hi! How are you doing today?');
+    asticaVoice('Hi! How are you doing today?');
     
 </script>
   ```
@@ -102,16 +105,13 @@ _Get started by including the astica.api.js within your project._
 
        
         //Example 1:   
-        asticaVision_analyze('Image URL', 'Objects'); //simple computer vision  
+        asticaVision('Image URL', 'Objects'); //simple computer vision  
         //Example 2:   
-        asticaVision_analyze('Image URL', 'Description,Faces,Objects'); //with options:
+        asticaVision('Image URL', 'Description,Faces,Objects'); //with options:
       
-        //Example 3:   
-        asticaVision_describe('https://www.astica.org/inputs/analyze_3.jpg'); //advanced, simple
-        
-        //Example 4:      
+        //Example 3:      
         //advanced with parameters:
-        asticaVision_describe(
+        asticaVision(
             '1.0_full', //modelVersion: 1.0_full, 2.0_full
             'IMAGE URL', //Input Image
             'Description,Moderate,Faces', //or 'all'
@@ -134,7 +134,7 @@ _Get started by including the astica.api.js within your project._
     <script>
         //simple usage
         function asticaListen_Sample_simple() {  
-            asticaListen_url('https://www.astica.org/endpoint/ml/inputs/audio/sample_1.wav'); 
+            asticaListen('https://www.astica.org/endpoint/ml/inputs/audio/sample_1.wav'); 
         }       
         setTimeout(function() { 
             asticaAPI_start('API KEY HERE'); //run at least once    
@@ -149,10 +149,10 @@ _Get started by including the astica.api.js within your project._
             var astica_modelInput = 'https://www.astica.org/endpoint/ml/inputs/audio/sample_1.wav';
          
             //With default callback:
-            asticaListen_url(astica_modelVersion, astica_modelInput); 
+            asticaListen(astica_modelVersion, astica_modelInput); 
             
             //With custom callback function:
-            asticaListen_url(astica_modelVersion, astica_modelInput, your_astica_CallBack);          
+            asticaListen(astica_modelVersion, astica_modelInput, your_astica_CallBack);          
         }    
         function your_astica_CallBack(data) {   
             if(typeof data.error != 'undefined') { alert(data.error); }         
@@ -202,12 +202,12 @@ _Get started by including the astica.api.js within your project._
         
         //Simple usage:  
         
-        asticaVoice_speak('Hi! How are you doing today?');
+        asticaVoice('Hi! How are you doing today?');
         
         
         //Specify a voice id:
         
-        asticaVoice_speak('Hi! How are you doing today?', 5);
+        asticaVoice('Hi! How are you doing today?', 5);
         
         //With custom callback:
         
@@ -219,8 +219,8 @@ _Get started by including the astica.api.js within your project._
           
         //With function and paramaters:
         
-        function asticaVoice_sayWords(string) {
-            asticaVoice_speak(
+        function asticaVoice_example(string) {
+            asticaVoice(
                 '1.0_full'
                 string,
                 'en-US', 
@@ -230,7 +230,7 @@ _Get started by including the astica.api.js within your project._
         } 
         setTimeout(function() { 
             asticaAPI_start('API KEY HERE'); //only needs to be called once.   
-            asticaVoice_sayWords('Hi! How are you doing?); 
+            asticaVoice_example('Hi! How are you doing?'); 
         }, 1000);
     </script>
    ```
@@ -265,7 +265,7 @@ success@onamal.com
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
 [license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://www.linkedin.com/company/onamal/
+[linkedin-url]: https://linkedin.com/in/othneildrew
 [product-screenshot]: images/screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
