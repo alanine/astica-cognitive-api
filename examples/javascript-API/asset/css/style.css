@@ -32,6 +32,7 @@ pre {
 #astica_icon { border:none; position:fixed; bottom: 20px; right: 20px; opacity:0.4; max-width:30px; display:block; margin:0px 0px; }
 #astica_icon_head { border:none; width:50px; margin-right:15px; position:relative; top:20px; }
 
+button:disabled, button[disabled] { opacity:0.4; }
 button {
         display:block!important;
         -webkit-text-size-adjust: 100%;
@@ -93,3 +94,94 @@ button {
     border-color: #1abc9c;
     cursor: pointer;
 }
+  
+  	
+input[type="range"] {
+  -webkit-appearance: none;
+  margin-right: 15px;
+  max-width:400px;
+  width: 100%; margin-bottom:10px;
+  height: 7px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 5px;
+  background-image: linear-gradient(#86eae1, #05df72);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  display:block;
+}
+
+/* Input Thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #ff3b00 ;
+  background: #009688 ;
+  cursor: ew-resize;
+  box-shadow: 0 0 2px 0 #555;
+  transition: background .3s ease-in-out;
+}
+
+input[type="range"]::-moz-range-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #ff3b00 ;
+  background: #009688 ;
+  cursor: ew-resize;
+  box-shadow: 0 0 2px 0 #555;
+  transition: background .3s ease-in-out;
+}
+
+input[type="range"]::-ms-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #ff3b00 ;
+  background: #009688 ;
+  cursor: ew-resize;
+  box-shadow: 0 0 2px 0 #555;
+  transition: background .3s ease-in-out;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background: #ff0200;
+  background: #009688;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  background: #ff0200;
+  background: #009688;
+}
+
+input[type="range"]::-ms-thumb:hover {
+  background: #ff0200;
+  background: #009688;
+}
+
+/* Input Track */
+input[type=range]::-webkit-slider-runnable-track  {
+  -webkit-appearance: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}
+
+input[type=range]::-moz-range-track {
+  -webkit-appearance: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}
+
+input[type="range"]::-ms-track {
+  -webkit-appearance: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}
+        
+        
