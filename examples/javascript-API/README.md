@@ -24,7 +24,7 @@
 <br />
 <div align="center">
   <a href="https://astica.org">
-    <img src="examples/javascript-API/asset/img/icon.png" alt="astica" width="80" height="80">
+    <img src="asset/img/icon.png" alt="astica" width="80" height="80">
   </a>
 
   <h3 align="center">astica Cognitive API - Javascript</h3>
