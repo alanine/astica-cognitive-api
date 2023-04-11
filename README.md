@@ -58,12 +58,12 @@ These demonstrations require an API key for the astica.org cognitive API. You ca
 
 
   ```js
-<script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
+<script src="https://www.astica.org/endpoint/ml/javascript/2023-04-10/astica.api.js"></script>
 <script>
     asticaAPI_start('API KEY HERE'); //only needs to be called once.        
     
     //Simple Vision:      
-    asticaVisione('Image URL', 'Objects'); //simple computer vision  
+    asticaVision('Image URL'); //simple computer vision  
     asticaVision('Image URL', 'Description,Faces,Objects'); //with options:
     
     //Simple Listen:      
@@ -71,6 +71,9 @@ These demonstrations require an API key for the astica.org cognitive API. You ca
     
     //Simple Voice:      
     asticaVoice('Hi! How are you doing today?');
+
+    //Simple GPT-S:      
+    asticaGPT('What color is an apple?');
     
 </script>
   ```
@@ -84,7 +87,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
+    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-10/astica.api.js"></script>
    ```
    
 3. Authenticate:
@@ -99,7 +102,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
+    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-10/astica.api.js"></script>
     <script>
         asticaAPI_start('API KEY HERE'); //run at least once    
 
@@ -130,7 +133,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
+    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-10/astica.api.js"></script>
     <script>
         //simple usage
         function asticaListen_Sample_simple() {  
@@ -169,7 +172,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
+    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-10/astica.api.js"></script>
     <script>
         var asticaTranscribeFile_input = document.getElementById('astica_ML_voice_input');     
         var asticaTranscribeFile_localData;
@@ -196,7 +199,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-01/astica.api.js"></script>
+    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-10/astica.api.js"></script>
     <script>
         asticaAPI_start('API KEY HERE'); //only needs to be called once.        
         
@@ -234,7 +237,67 @@ _Get started by including the astica.api.js within your project._
         }, 1000);
     </script>
    ```
-   
+
+7. Using asticaGPT:
+
+
+   ```js
+    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-10/astica.api.js"></script>
+    <script>
+        asticaAPI_start('API KEY HERE'); //only needs to be called once.  
+
+        //Simple Usage:
+        asticaGPT_generate("Write a sentence about apples:")
+
+        //Simple Usage with Token Limit:
+        asticaGPT_generate("Write a sentence about apples:", 10)
+
+        //With Token Limit:
+        asticaGPT_generate("Write a sentence about apples:", 10)
+
+        //Advanced:
+         var asticaGPT_params = {
+            temperature:document.getElementById("astica_ML_temperature").value,
+            top_p:document.getElementById("astica_ML_top_p").value,
+            think_pass:document.getElementById("astica_ML_think_pass").value,
+            stop_sequence:document.getElementById("astica_ML_stop_sequence").value,
+            stream_output: document.getElementById("astica_ML_stream_output").value
+        }
+
+        asticaGPT_generate(
+            document.getElementById("astica_ML_version").value,
+            document.getElementById("astica_ML_gpt_input").value,
+            document.getElementById("astica_ML_tokens_max").value,
+            asticaGPT_params
+        );        
+
+
+
+        //default asticaGPT callbacks
+        function asticaGPT_generateComplete(data){
+            console.log(data);
+            if(typeof data.error != 'undefined') { alert(data.error); }     
+            $('#your_div').val(data.output)
+        }        
+        function asticaGPT_generatePreview(data){   
+            console.log(data);               
+            if(typeof data.error != 'undefined') { alert(data.error); return; }     
+            $('#your_div').val(data.output)                    
+        }  
+
+
+        //Plug and play example:
+
+        function asticaGPT_example(string, tokens) {
+           asticaGPT_generate(string, tokens) 
+        } 
+        setTimeout(function() { 
+            asticaAPI_start('API KEY HERE'); //only needs to be called once.   
+            asticaGPT_example('Write a sentence about apples:', 55); //max 55 tokens
+        }, 1000);  
+    </script>
+   ```
+      
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
