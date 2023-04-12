@@ -32,7 +32,7 @@
   <p align="center">
     Speak, hear, and see with one line of javascript.
     <br />
-    <a href="https://astica.org"><strong>Powered by astica.org</strong></a>
+    <a href="https://astica.org">Powered by astica.org</a>
     <br />
     <br /><strong>
     <a href="https://www.astica.org/vision/describe/?fr=git" title="asticaVision demo">Vision Demo</a>
