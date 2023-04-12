@@ -34,7 +34,7 @@
     <br />
     <a href="https://astica.org"><strong>Powered by astica.org</strong></a>
     <br />
-    <br />
+    <br /><strong>
     <a href="https://www.astica.org/vision/describe/?fr=git" title="asticaVision demo">Vision Demo</a>
     ·
     <a href="https://www.astica.org/code-examples/javascript-API/asticaListen_sample.html" title="asticaListen demo">Listen Demo</a>
@@ -42,6 +42,7 @@
     <a href="https://www.astica.org/code-examples/javascript-API/asticaVoice_sample.html" title="asticaVoice demo">Voice Demo</a>
     ·
     <a href="https://www.astica.org/code-examples/javascript-API/asticaGPT_sample.html" title="asticaGPT demo">GPT-S Demo</a>
+    </strong>
   </p>
 </div>
 
