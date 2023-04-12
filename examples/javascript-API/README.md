@@ -35,7 +35,7 @@
     <a href="https://astica.org"><strong>Powered by astica.org</strong></a>
     <br />
     <br />
-    <a href="https://www.astica.org/code-examples/javascript-API/asticaVision_sample.html" title="asticaVision demo">Vision Demo</a>
+    <a href="https://www.astica.org/vision/describe/?fr=git" title="asticaVision demo">Vision Demo</a>
     ·
     <a href="https://www.astica.org/code-examples/javascript-API/asticaListen_sample.html" title="asticaListen demo">Listen Demo</a>
     ·
