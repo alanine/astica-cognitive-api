@@ -85,13 +85,14 @@
                 
                 $('#astica_ML_gpt_output').val('Loading..')
                 var asticaGPT_params = {
+                    instruction:document.getElementById("astica_ML_gpt_instruction").value,
                     temperature:document.getElementById("astica_ML_temperature").value,
                     top_p:document.getElementById("astica_ML_top_p").value,
                     think_pass:document.getElementById("astica_ML_think_pass").value,
                     stop_sequence:document.getElementById("astica_ML_stop_sequence").value,
                     stream_output: document.getElementById("astica_ML_stream_output").value
                 }
-                asticaGPT_generate(
+                asticaGPT(
                     document.getElementById("astica_ML_version").value,
                     document.getElementById("astica_ML_gpt_input").value,
                     document.getElementById("astica_ML_tokens_max").value,
@@ -133,16 +134,14 @@
     
     
     //Simple Usage:
-    asticaGPT_generate("Write a sentence about apples:")
-    
-    //Simple Usage with Token Limit:
-    asticaGPT_generate("Write a sentence about apples:", 10)
+    asticaGPT("Write a sentence about apples:")
     
     //With Token Limit:
-    asticaGPT_generate("Write a sentence about apples:", 10)
+    asticaGPT("Write a sentence about apples:", 10)
     
     //Advanced:
      var asticaGPT_params = {
+        instruction:document.getElementById("astica_ML_temperature").value,
         temperature:document.getElementById("astica_ML_temperature").value,
         top_p:document.getElementById("astica_ML_top_p").value,
         think_pass:document.getElementById("astica_ML_think_pass").value,
@@ -150,7 +149,7 @@
         stream_output: document.getElementById("astica_ML_stream_output").value
     }
     
-    asticaGPT_generate(
+    asticaGPT(
         document.getElementById("astica_ML_version").value,
         document.getElementById("astica_ML_gpt_input").value,
         document.getElementById("astica_ML_tokens_max").value,
@@ -164,6 +163,8 @@
         console.log(data);
         if(typeof data.error != 'undefined') { alert(data.error); }     
         $('#your_div').val(data.output)
+        //optional text to speech with asticaVoice:
+        asticaVoice(data.output);
     }        
     function asticaGPT_generatePreview(data){   
         console.log(data);               
@@ -175,7 +176,7 @@
     //Plug and play example:
     
     function asticaGPT_example(string, tokens) {
-       asticaGPT_generate(string, tokens) 
+       asticaGPT(string, tokens) 
     } 
     setTimeout(function() { 
         asticaAPI_start('API KEY HERE'); //only needs to be called once.   
