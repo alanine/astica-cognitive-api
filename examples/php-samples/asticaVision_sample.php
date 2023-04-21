@@ -1,6 +1,6 @@
 <?php    
     $asticaAPI_key = 'YOUR API KEY'; //visit https://astica.org
-    $asticaAPI_timeout = 15; //seconds
+    $asticaAPI_timeout = 35; //seconds
 
     $asticaAPI_endpoint = 'https://www.astica.org:9141/vision/describe';
     $asticaAPI_modelVersion = '1.0_full';  //1.0_full or 2.0_full  
