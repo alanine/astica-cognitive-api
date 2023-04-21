@@ -40,14 +40,17 @@
                 <li>faces</li>
                 <li>celebrities</li>
                 <li>landmarks</li>
+                <li>gpt <sup style="font-weight:bold; color:#dc4e23;">new (Slow - be patient)</span></li>
+                <li>gpt_detailed <sup style="font-weight:bold; color:#dc4e23;">new (Much Slower)</span></li>
                 
                 <b style="display:block;margin:15px 0px 5px;">'2.0_full' supported options:</b>
                 <li>description</li>
-                <li>describeAll</li>
-                <li>tags</li>
                 <li>objects</li>
-                <li>people</li>
-                <li>OCR</li>
+                <li>tags</li>
+                <li>describe_all <sup style="font-weight:bold; color:#dc4e23;">new</span></li>
+                <li>text_read <sup style="font-weight:bold; color:#dc4e23;">new</span></li>
+                <li>gpt <sup style="font-weight:bold; color:#dc4e23;">new (Slow - be patient)</span></li>
+                <li>gpt_detailed <sup style="font-weight:bold; color:#dc4e23;">new (Much Slower)</span></li>
             </div>
             
             <label for="astica_ML_apikey"><b>Step 4:</b> Enter Image URL</label><br>
@@ -88,7 +91,7 @@
                 document.getElementById("astica_ML_vision_output").style.display = 'block';
                 document.getElementById("astica_ML_vision_input").style.display = 'block';
                 document.getElementById("astica_ML_vision_output").textContent = JSON.stringify(data, null, 2);
-                document.getElementById("astica_ML_vision_output").scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+                document.getElementById("astica_ML_vision_output").scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
                 console.log(data); //view all data
             }	
         </script> 
