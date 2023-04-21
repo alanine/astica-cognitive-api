@@ -3,11 +3,35 @@
     $asticaAPI_timeout = 15; //seconds
 
     $asticaAPI_endpoint = 'https://www.astica.org:9141/vision/describe';
-    $asticaAPI_modelVersion = '1.0_full';    
+    $asticaAPI_modelVersion = '1.0_full';  //1.0_full or 2.0_full  
 
     $asticaAPI_input = 'https://www.astica.org/inputs/analyze_3.jpg';
-    $asticaAPI_visionParams = 'description, objects, faces'; //comma separated options; leave blank for all
-    
+    $asticaAPI_visionParams = 'gpt, description, objects, faces'; //comma separated options; leave blank for all; note "gpt" and "gpt_detailed" are slow.
+    /*
+        '1.0_full' supported options:
+            description
+            objects
+            categories
+            moderate
+            tags
+            brands
+            color
+            faces
+            celebrities
+            landmarks
+            gpt new (Slow - be patient)
+            gpt_detailed new (Much Slower)
+            
+        '2.0_full' supported options:
+            description
+            objects
+            tags
+            describe_all new
+            text_read new
+            gpt new (Slow - be patient)
+            gpt_detailed new (Much Slower)
+     */
+
     // Define payload array
     $asticaAPI_payload = [
         'tkn' => $asticaAPI_key,
@@ -23,6 +47,9 @@
     //////////////////////////
     ///////////////////Caption
     //////////////////////////
+    if(isset($result['caption_GPTS']) &&  $result['caption_GPTS'] != '') {
+        echo '<hr><b>GPT Caption:</b> '.$result['caption_GPTS'].'<hr>';
+    }
     if(isset($result['caption']) &&  $result['caption']['text'] != '') {
         echo '<hr><b>Caption:</b> '.$result['caption']['text'].'<hr>';
     }
