@@ -9,7 +9,6 @@ def asticaAPI(endpoint, payload, timeout):
         return {'status': 'error', 'error': 'Failed to connect to the API.'}
 
 asticaAPI_key = 'YOUR API KEY' # visit https://astica.org
-asticaAPI_key = '8FFDF928-3CCB-4964-A3FF-130CAD42344D' # visit https://astica.org
 asticaAPI_timeout = 25 # seconds
 asticaAPI_endpoint = 'https://www.astica.org:9161/gpt/generate'
 asticaAPI_modelVersion = 'GPT-S2' # engine to use
