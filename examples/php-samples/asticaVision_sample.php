@@ -1,11 +1,11 @@
 <?php    
     $asticaAPI_key = 'YOUR API KEY'; //visit https://astica.org
-    $asticaAPI_timeout = 35; //seconds
+    $asticaAPI_timeout = 60; // seconds  Using "gpt" or "gpt_detailed" will increase response time.
 
     $asticaAPI_endpoint = 'https://www.astica.org:9141/vision/describe';
-    $asticaAPI_modelVersion = '1.0_full';  //1.0_full or 2.0_full  
+    $asticaAPI_modelVersion = '2.0_full';  //1.0_full or 2.0_full  
 
-    $asticaAPI_input = 'https://www.astica.org/inputs/analyze_3.jpg';
+    $asticaAPI_input = 'https://www.astica.org/inputs/analyze_3.jpg'; //or base64 encoded string: data:image/png;base64,iVBORw0KG.....
     $asticaAPI_visionParams = 'gpt, description, objects, faces'; //comma separated options; leave blank for all; note "gpt" and "gpt_detailed" are slow.
     /*
         '1.0_full' supported options:
@@ -45,19 +45,29 @@
 
     
     //////////////////////////
-    ///////////////////Caption
+    //////Caption and Describe
     //////////////////////////
     if(isset($result['caption_GPTS']) &&  $result['caption_GPTS'] != '') {
-        echo '<hr><b>GPT Caption:</b> '.$result['caption_GPTS'].'<hr>';
+        echo '<hr><b>GPT Caption:</b> '.$result['caption_GPTS'];
     }
     if(isset($result['caption']) &&  $result['caption']['text'] != '') {
-        echo '<hr><b>Caption:</b> '.$result['caption']['text'].'<hr>';
+        echo '<hr><b>Caption:</b> '.$result['caption']['text'];
+    }    
+    if(isset($result['caption_list'])) { //v2.0_full only
+        echo '<hr><b>Additional Captions:</b> '.count($result['caption_list']);
+        foreach($result['caption_list'] as $caption) {
+            echo '<li>';
+            print_r($caption);
+            echo '</li>';
+        }
     }
-    //////////////////////////
-    //////////Detailed Caption
-    //////////////////////////
-    if(isset($result['CaptionDetailed']) &&  $result['CaptionDetailed']['text'] != '') {
-        echo '<hr><b>CaptionDetailed:</b> '.$result['CaptionDetailed']['text'].'<hr>';
+    if(isset($result['caption_tags'])) {
+    echo '<hr><b>Caption Tags Found:</b> '.count($result['caption_tags']);
+        foreach($result['caption_tags'] as $caption_tags) {
+            echo '<li>';
+            print_r($caption_tags);
+            echo '</li>';
+        }
     }
     //////////////////////////
     ///////////////////Objects
@@ -96,8 +106,12 @@
     //////////////////////Tags
     //////////////////////////
     if(isset($result['tags'])) {
-        echo '<hr>Tags: ';
-        echo implode(', ', $result['tags']);
+    echo '<hr><b>Tags Found:</b> '.count($result['tags']);
+        foreach($result['faces'] as $tags) {
+            echo '<li>';
+            print_r($tags);
+            echo '</li>';
+        }
     }
     echo '<br><br><hr>API Usage: '.$result['astica']['api_qty'].' transactions';
     //////////////////////////
