@@ -30,7 +30,7 @@
   <h3 align="center">astica Cognitive API - Javascript</h3>
 
   <p align="center">
-    Speak, hear, and see with one line of javascript.
+    Speak, hear, and see with one line of javascript, or REST API.
     <br />
     <a href="https://astica.org"><strong>Powered by astica.org</strong></a>
     <br />
@@ -63,8 +63,8 @@ These demonstrations require an API key for the astica.org cognitive API. You ca
     asticaAPI_start('API KEY HERE'); //only needs to be called once.        
     
     //Simple Vision:      
-    asticaVision('Image URL'); //simple computer vision  
-    asticaVision('Image URL', 'Description,Faces,Objects'); //with options:
+    asticaVision('Image URL or Base64'); //simple computer vision  
+    asticaVision('Image URL or Base64', 'Description,Faces,Objects'); //with options:
     
     //Simple Listen:      
     asticaListen('https://www.astica.org/endpoint/ml/inputs/audio/sample_1.wav'); 
