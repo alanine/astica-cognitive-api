@@ -78,8 +78,11 @@
                     return;
                 }               
                 asticaAPI_start(document.getElementById("astica_ML_apikey").value); //only needs to be called once.               
-                document.getElementById("astica_ML_vision_output").innerHTML = '';                
-                document.getElementById("astica_ML_vision_input").src = document.getElementById("astica_ML_analyze_input").value                            
+                document.getElementById("astica_ML_vision_output").innerHTML = '';   
+                
+                var vision_image_display = document.getElementById("astica_ML_analyze_input").value;
+                if(!vision_image_display.includes('http')) { vision_image_display = 'data:image/jpeg;base64,'+vision_image_display; }
+                document.getElementById("astica_ML_vision_input").src = vision_image_display                           
                 
                 var astica_ML_options = document.getElementById("astica_ML_options").value; 
                 if(astica_ML_options == '') { astica_ML_options = 'all'; }
