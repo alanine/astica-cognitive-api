@@ -1,12 +1,12 @@
 <?php    
-    $asticaAPI_key = 'YOUR API KEY'; //visit https://astica.org
+    $asticaAPI_key = 'YOUR API KEY'; //visit https://astica.ai
     $asticaAPI_timeout = 60; // seconds  Using "gpt" or "gpt_detailed" will increase response time.
 
-    $asticaAPI_endpoint = 'https://www.astica.org:9141/vision/describe';
+    $asticaAPI_endpoint = 'https://astica.ai:9141/vision/describe';
     $asticaAPI_modelVersion = '2.0_full';  //1.0_full or 2.0_full  
 
-    $asticaAPI_input = 'https://www.astica.org/inputs/analyze_3.jpg'; //or base64 encoded string: data:image/png;base64,iVBORw0KG.....
-    $asticaAPI_visionParams = 'gpt, description, objects, faces'; //comma separated options; leave blank for all; note "gpt" and "gpt_detailed" are slow.
+    $asticaAPI_input = 'https://astica.ai/example/asticaVision_sample.jpg'; //or base64 encoded string: data:image/png;base64,iVBORw0KG.....
+    $asticaAPI_visionParams = 'objects, faces'; //comma separated options; leave blank for all; note "gpt" and "gpt_detailed" are slow.
     /*
         '1.0_full' supported options:
             description
@@ -30,6 +30,8 @@
             text_read new
             gpt new (Slow - be patient)
             gpt_detailed new (Much Slower)
+         '2.0_full' supported options:
+            Supports all options 
      */
 
     // Define payload array

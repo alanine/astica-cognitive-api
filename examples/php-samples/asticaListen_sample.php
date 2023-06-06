@@ -1,14 +1,14 @@
 <?php
-    $asticaAPI_key = 'YOUR API KEY'; //visit https://astica.org
+    $asticaAPI_key = 'YOUR API KEY'; //visit https://astica.ai
     $asticaAPI_timeout = 25; // seconds
 
-    $asticaAPI_endpoint = 'https://www.astica.org:9151/listen/transcribe';
+    $asticaAPI_endpoint = 'https://astica.ai:9151/listen/transcribe';
     $asticaAPI_modelVersion = '1.0_full';
 
     $asticaAPI_doStream = 0; //Determines whether to display responses in real-time.
     $asticaAPI_low_priority = 0; //Lower costs by receiving a URL to query for results. 
     
-    $asticaAPI_input = 'https://www.astica.org/endpoint/ml/inputs/audio/sample_1.wav';
+    $asticaAPI_input = 'https://astica.ai/example/asticaListen_sample.wav';
 
     // Define payload array
     $asticaAPI_payload = [

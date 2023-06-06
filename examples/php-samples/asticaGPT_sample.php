@@ -1,8 +1,8 @@
 <?php
-    $asticaAPI_key = 'YOUR API KEY'; //visit https://astica.org
+    $asticaAPI_key = 'YOUR API KEY'; //visit https://astica.ai
     $asticaAPI_timeout = 25; // seconds
 
-    $asticaAPI_endpoint = 'https://www.astica.org:9161/gpt/generate';
+    $asticaAPI_endpoint = 'https://astica.ai:9161/gpt/generate';
     $asticaAPI_modelVersion = 'GPT-S2'; //engine to use.
     $asticaAPI_think_pass = 1; //INT; number of passes
     $asticaAPI_temperature = 0.7; //creativity of response
