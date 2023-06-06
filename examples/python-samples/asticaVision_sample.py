@@ -10,14 +10,14 @@ def asticaAPI(endpoint, payload, timeout):
     else:
         return {'status': 'error', 'error': 'Failed to connect to the API.'}
 
-asticaAPI_key = 'YOUR API KEY' # visit https://astica.org
+asticaAPI_key = 'YOUR API KEY' # visit https://astica.ai
 asticaAPI_timeout = 35 # seconds  Using "gpt" or "gpt_detailed" will increase response time.
 
-asticaAPI_endpoint = 'https://www.astica.org:9141/vision/describe'
+asticaAPI_endpoint = 'https://astica.ai:9141/vision/describe'
 asticaAPI_modelVersion = '1.0_full' # '1.0_full' or '2.0_full'
 
 #Input Method 1: https URL of a jpg/png image (faster)
-asticaAPI_input = 'https://www.astica.org/inputs/analyze_3.jpg' 
+asticaAPI_input = 'https://astica.ai/example/asticaVision_sample.jpg' 
 
 '''
 #Input Method 2: base64 encoded string of a local image (slower)
@@ -30,7 +30,7 @@ asticaAPI_input = f"data:image/{image_extension[1:]};base64,{base64.b64encode(im
 '''
 
 
-asticaAPI_visionParams = 'gpt,description,objects,faces' # comma separated options; leave blank for all; note "gpt" and "gpt_detailed" are slow.
+asticaAPI_visionParams = 'objects,faces' # comma separated options; leave blank for all; note "gpt" and "gpt_detailed" are slow.
 '''
     '1.0_full' supported options:
         description
@@ -54,6 +54,10 @@ asticaAPI_visionParams = 'gpt,description,objects,faces' # comma separated optio
         text_read new
         gpt new (Slow - be patient)
         gpt_detailed new (Much Slower)
+        
+    '2.1_full' supported options:
+        Supports all options 
+        
 '''
 
 # Define payload dictionary
