@@ -23,25 +23,25 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://astica.org">
+  <a href="https://astica.ai">
     <img src="examples/javascript-API/asset/img/icon.png" alt="astica" width="80" height="80">
   </a>
 
-  <h3 align="center">astica Cognitive API - Javascript</h3>
+  <h3 align="center">astica Cognitive API</h3>
 
   <p align="center">
     Speak, hear, and see with one line of javascript, or REST API.
     <br />
-    <a href="https://astica.org"><strong>Powered by astica.org</strong></a>
+    <a href="https://astica.ai"><strong>Powered by astica</strong></a>
     <br />
     <br />
-    <a href="https://www.astica.org/vision/describe/?fr=git" title="asticaVision demo">Vision Demo</a>
+    <a href="https://astica.ai/vision/describe/?fr=git" title="asticaVision demo">Vision Demo</a>
     ·
-    <a href="https://www.astica.org/code-examples/javascript-API/asticaListen_sample.html" title="asticaListen demo">Listen Demo</a>
+    <a href="https://astica.ai/code-examples/javascript-API/asticaListen_sample.html" title="asticaListen demo">Listen Demo</a>
     ·
-    <a href="https://www.astica.org/code-examples/javascript-API/asticaVoice_sample.html" title="asticaVoice demo">Voice Demo</a>
+    <a href="https://astica.ai/code-examples/javascript-API/asticaVoice_sample.html" title="asticaVoice demo">Voice Demo</a>
     ·
-    <a href="https://www.astica.org/code-examples/javascript-API/asticaGPT_sample.html" title="asticaGPT demo">GPT-S Demo</a>
+    <a href="https://astica.ai/code-examples/javascript-API/asticaGPT_sample.html" title="asticaGPT demo">GPT-S Demo</a>
   </p>
 </div>
 
@@ -52,13 +52,13 @@
 <!-- GETTING STARTED -->
 ## Getting Started
 
-These demonstrations require an API key for the astica.org cognitive API. You can register and get your key instantly.
+These demonstrations require an API key for the astica.ai cognitive API. You can register and get your key instantly.
 
 ### Quick Start
 
 
   ```js
-<script src="https://www.astica.org/endpoint/ml/javascript/2023-04-10/astica.api.js"></script>
+<script src="https://astica.ai/javascript-sdk/2023-07-09/astica.api.js"></script>
 <script>
     asticaAPI_start('API KEY HERE'); //only needs to be called once.        
     
@@ -82,12 +82,12 @@ These demonstrations require an API key for the astica.org cognitive API. You ca
 
 _Get started by including the astica.api.js within your project._
 
-1. Get your API Key at [https://astica.org](https://astica.org)
+1. Get your API Key at [https://astica.ai](https://astica.ai)
 2. Add the astica javascript API to your project:
 
 
    ```js
-    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-10/astica.api.js"></script>
+    <script src="https://astica.ai/javascript-sdk/2023-07-09/astica.api.js"></script>
    ```
    
 3. Authenticate:
@@ -102,7 +102,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-10/astica.api.js"></script>
+    <script src="https://astica.ai/javascript-sdk/2023-07-09/astica.api.js"></script>
     <script>
         asticaAPI_start('API KEY HERE'); //run at least once    
 
@@ -133,7 +133,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-10/astica.api.js"></script>
+    <script src="https://astica.ai/javascript-sdk/2023-07-09/astica.api.js"></script>
     <script>
         //simple usage
         function asticaListen_Sample_simple() {  
@@ -172,7 +172,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-10/astica.api.js"></script>
+    <script src="https://astica.ai/javascript-sdk/2023-07-09/astica.api.js"></script>
     <script>
         var asticaTranscribeFile_input = document.getElementById('astica_ML_voice_input');     
         var asticaTranscribeFile_localData;
@@ -199,7 +199,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-10/astica.api.js"></script>
+    <script src="https://astica.ai/javascript-sdk/2023-07-09/astica.api.js"></script>
     <script>
         asticaAPI_start('API KEY HERE'); //only needs to be called once.        
         
@@ -242,7 +242,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://www.astica.org/endpoint/ml/javascript/2023-04-10/astica.api.js"></script>
+    <script src="https://astica.ai/javascript-sdk/2023-07-09/astica.api.js"></script>
     <script>
         asticaAPI_start('API KEY HERE'); //only needs to be called once.  
 
