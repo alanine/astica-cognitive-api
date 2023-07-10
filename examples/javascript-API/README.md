@@ -82,7 +82,7 @@ These demonstrations require an API key for the astica.ai cognitive API. You can
 
 _Get started by including the astica.api.js within your project._
 
-1. Get your API Key at [https://astica.org](https://astica.org)
+1. Get your API Key at [https://astica.ai](https://astica.ai)
 2. Add the astica javascript API to your project:
 
 
