@@ -30,19 +30,18 @@
   <h3 align="center">astica Cognitive API - Javascript</h3>
 
   <p align="center">
-    Speak, hear, and see with one line of javascript.
+    Speak, hear, and see with one line of javascript or REST API.
     <br />
-    <a href="https://astica.org">Powered by astica.org</a>
+    <a href="https://astica.ai"><strong>Powered by astica</strong></a>
     <br />
-    <br /><strong>
-    <a href="https://www.astica.org/vision/describe/?fr=git" title="asticaVision demo">Vision Demo</a>
+    <br />
+    <a href="https://astica.ai/vision/describe/?fr=git" title="asticaVision demo">Vision Demo</a>
     ·
-    <a href="https://www.astica.org/code-examples/javascript-API/asticaListen_sample.html" title="asticaListen demo">Listen Demo</a>
+    <a href="https://astica.ai/code-examples/javascript-API/asticaListen_sample.html" title="asticaListen demo">Listen Demo</a>
     ·
-    <a href="https://www.astica.org/code-examples/javascript-API/asticaVoice_sample.html" title="asticaVoice demo">Voice Demo</a>
+    <a href="https://astica.ai/code-examples/javascript-API/asticaVoice_sample.html" title="asticaVoice demo">Voice Demo</a>
     ·
-    <a href="https://www.astica.org/code-examples/javascript-API/asticaGPT_sample.html" title="asticaGPT demo">GPT-S Demo</a>
-    </strong>
+    <a href="https://astica.ai/code-examples/javascript-API/asticaGPT_sample.html" title="asticaGPT demo">GPT-S Demo</a>
   </p>
 </div>
 
@@ -53,7 +52,7 @@
 <!-- GETTING STARTED -->
 ## Getting Started
 
-These demonstrations require an API key for the astica.org cognitive API. You can register and get your key instantly.
+These demonstrations require an API key for the astica.ai cognitive API. You can register and get your key instantly.
 
 ### Quick Start
 
