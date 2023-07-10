@@ -2,8 +2,8 @@
     $asticaAPI_key = 'YOUR API KEY'; //visit https://astica.ai
     $asticaAPI_timeout = 60; // seconds  Using "gpt" or "gpt_detailed" will increase response time.
 
-    $asticaAPI_endpoint = 'https://astica.ai:9141/vision/describe';
-    $asticaAPI_modelVersion = '2.0_full';  //1.0_full or 2.0_full  
+    $asticaAPI_endpoint = 'https://vision.astica.ai/describe';
+    $asticaAPI_modelVersion = '2.1_full';  //1.0_full or 2.0_full  
 
     $asticaAPI_input = 'https://astica.ai/example/asticaVision_sample.jpg'; //or base64 encoded string: data:image/png;base64,iVBORw0KG.....
     $asticaAPI_visionParams = 'objects, faces'; //comma separated options; leave blank for all; note "gpt" and "gpt_detailed" are slow.
@@ -30,8 +30,10 @@
             text_read new
             gpt new (Slow - be patient)
             gpt_detailed new (Much Slower)
+            
          '2.0_full' supported options:
             Supports all options 
+            
      */
 
     // Define payload array
@@ -121,23 +123,24 @@
     //////////////////////////
     echo '<pre>'; print_r($result); echo '</pre>';
     
-    
-    
-    
-    
-    
     // Define API function
     function asticaAPI($endpoint, $payload, $timeout = 15) {
         $ch = curl_init();
+        $payload = json_encode($payload);
+        // Set cURL options
         curl_setopt_array($ch, [
             CURLOPT_URL => $endpoint,
             CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => http_build_query($payload),
+            CURLOPT_POSTFIELDS => $payload,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_SSL_VERIFYHOST => 0,
             CURLOPT_SSL_VERIFYPEER => 0,
             CURLOPT_CONNECTTIMEOUT => $timeout,
-            CURLOPT_TIMEOUT => $timeout
+            CURLOPT_TIMEOUT => $timeout,
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/json; charset=utf-8',
+                'Content-Length: ' . strlen($payload),
+                'Accept: application/json'
+            ]
         ]);
         $response = curl_exec($ch);
         if (curl_errno($ch)) {

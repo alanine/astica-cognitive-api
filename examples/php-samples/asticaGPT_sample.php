@@ -2,7 +2,7 @@
     $asticaAPI_key = 'YOUR API KEY'; //visit https://astica.ai
     $asticaAPI_timeout = 25; // seconds
 
-    $asticaAPI_endpoint = 'https://astica.ai:9161/gpt/generate';
+    $asticaAPI_endpoint = 'https://nlp.astica.ai/generate';
     $asticaAPI_modelVersion = 'GPT-S2'; //engine to use.
     $asticaAPI_think_pass = 1; //INT; number of passes
     $asticaAPI_temperature = 0.7; //creativity of response
@@ -85,15 +85,21 @@ print_r($asticaAPI_result)
     // Define API function
     function asticaAPI($endpoint, $payload, $timeout = 15) {
         $ch = curl_init();
+        $payload = json_encode($payload);
+        // Set cURL options
         curl_setopt_array($ch, [
             CURLOPT_URL => $endpoint,
             CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => http_build_query($payload),
+            CURLOPT_POSTFIELDS => $payload,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_SSL_VERIFYHOST => 0,
             CURLOPT_SSL_VERIFYPEER => 0,
             CURLOPT_CONNECTTIMEOUT => $timeout,
-            CURLOPT_TIMEOUT => $timeout
+            CURLOPT_TIMEOUT => $timeout,
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/json; charset=utf-8',
+                'Content-Length: ' . strlen($payload),
+                'Accept: application/json'
+            ]
         ]);
         $response = curl_exec($ch);
         if (curl_errno($ch)) {
