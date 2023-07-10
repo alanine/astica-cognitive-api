@@ -2,7 +2,7 @@ import requests
 import json
 
 def asticaAPI(endpoint, payload, timeout):
-    response = requests.post(endpoint, data=payload, timeout=timeout, verify=False)
+    response = requests.post(endpoint, data=json.dumps(payload), timeout=timeout, headers={ 'Content-Type': 'application/json', })
     if response.status_code == 200:
         return response.json()
     else:
@@ -11,7 +11,7 @@ def asticaAPI(endpoint, payload, timeout):
 asticaAPI_key = 'YOUR API KEY' # visit https://astica.ai
 asticaAPI_timeout = 25 # seconds
 
-asticaAPI_endpoint = 'https://astica.ai:9151/listen/transcribe'
+asticaAPI_endpoint = 'https://listen.astica.ai/transcribe'
 asticaAPI_modelVersion = '1.0_full'
 
 asticaAPI_doStream = 0 # Determines whether to display responses in real-time.
@@ -28,6 +28,7 @@ asticaAPI_payload = {
     'low_priority': asticaAPI_low_priority
 }
 
+
 # Call API function and store result
 asticaAPI_result = asticaAPI(asticaAPI_endpoint, asticaAPI_payload, asticaAPI_timeout)
 
@@ -38,13 +39,13 @@ print(json.dumps(asticaAPI_result, indent=4))
 if 'status' in asticaAPI_result:
     # Output Error if exists    
     if asticaAPI_result['status'] == 'error':
-        print('<b>Output:</b><br>', asticaAPI_result['error'])
+        print('Output:', asticaAPI_result['error'])
     # Output Success if exists
     if asticaAPI_result['status'] == 'success':
         if 'resultURI' in asticaAPI_result:
-            print('<b>Output URI:</b><br>', asticaAPI_result['resultURI'])
-            print('<br><p>Query this URL to obtain the output of your results')
+            print('Output URI:', asticaAPI_result['resultURI'])
+            print('Query this URL to obtain the output of your results')
         else:
-            print('<b>Output:</b><br>', asticaAPI_result['text'])
+            print('Output:', asticaAPI_result['text'])
 else:
     print('Invalid response')

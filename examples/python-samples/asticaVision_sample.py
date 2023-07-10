@@ -4,7 +4,7 @@ import base64
 import os
 
 def asticaAPI(endpoint, payload, timeout):
-    response = requests.post(endpoint, data=payload, timeout=timeout, verify=False)
+    response = requests.post(endpoint, data=json.dumps(payload), timeout=timeout, headers={ 'Content-Type': 'application/json', })
     if response.status_code == 200:
         return response.json()
     else:
@@ -13,8 +13,8 @@ def asticaAPI(endpoint, payload, timeout):
 asticaAPI_key = 'YOUR API KEY' # visit https://astica.ai
 asticaAPI_timeout = 35 # seconds  Using "gpt" or "gpt_detailed" will increase response time.
 
-asticaAPI_endpoint = 'https://astica.ai:9141/vision/describe'
-asticaAPI_modelVersion = '1.0_full' # '1.0_full' or '2.0_full'
+asticaAPI_endpoint = 'https://vision.astica.ai/describe'
+asticaAPI_modelVersion = '2.1_full' # '1.0_full' or '2.0_full'
 
 #Input Method 1: https URL of a jpg/png image (faster)
 asticaAPI_input = 'https://astica.ai/example/asticaVision_sample.jpg' 

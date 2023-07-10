@@ -2,7 +2,7 @@ import requests
 import json
 
 def asticaAPI(endpoint, payload, timeout):
-    response = requests.post(endpoint, data=payload, timeout=timeout, verify = False)
+    response = requests.post(endpoint, data=json.dumps(payload), timeout=timeout, headers={ 'Content-Type': 'application/json', })
     if response.status_code == 200:
         return response.json()
     else:
@@ -10,7 +10,7 @@ def asticaAPI(endpoint, payload, timeout):
 
 asticaAPI_key = 'YOUR API KEY' # visit https://astica.ai
 asticaAPI_timeout = 25 # seconds
-asticaAPI_endpoint = 'https://astica.ai:9161/gpt/generate'
+asticaAPI_endpoint = 'https://nlp.astica.ai/generate'
 asticaAPI_modelVersion = 'GPT-S2' # engine to use
 asticaAPI_think_pass = 1 # INT; number of passes
 asticaAPI_temperature = 0.7 # creativity of response
