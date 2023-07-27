@@ -1,0 +1,195 @@
+<html>
+    <head>
+        <title>asticaGPT: NLP Generate - Javascript Client API</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="asset/img/favi/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="asset/img/favi/favicon-32x32.png"> 
+        <link rel="icon" type="image/png" sizes="16x16" href="asset/img/favi/favicon-16x16.png">
+        
+        <!-- include astica javascript api version 2023-04-10 -->
+        <script src="https://astica.ai/javascript-sdk/2023-07-09/astica.api.js"></script>   
+    </head>
+    <body>
+        <h1><a href="https://astica.ai/?fr=gpt-jsapi"><img src="asset/img/icon.png" id="astica_icon_head"></a> asticaVoice: GPT-S Generate - Javascript Client API</h1>
+        <a href="https://astica.ai/code-examples/javascript-API/asticaVision_sample.html" title="asticaVision - Describe Images" class="explore_astica">asticaVision</a>
+        <a href="https://astica.ai/code-examples/javascript-API/asticaListen_sample.html" title="asticListen - Speech to Text" class="explore_astica">asticaListen</a>
+        <a href="https://astica.ai/code-examples/javascript-API/asticaVoice_sample.html" title="asticVoice - Text to Speech" class="explore_astica">asticaVoice</a>
+        <a href="https://astica.ai/code-examples/javascript-API/asticaGPT_sample.html" title="asticGPT - NLP GPT-S" class="explore_astica explore_astica_active">asticaGPT</a>
+        <hr style="margin-top:15px;">
+        <label for="astica_ML_apikey"><b>Step 1:</b> API Key <a href="https://astica.ai/" target="_blank" title="Get API Key" style="font-size:12px; margin-left: 15px;">Obtain your API Key</a></label>
+        <input type="text" id="astica_ML_apikey" placeholder="Enter your API Key" value="">
+        <label for="astica_ML_apikey"><b>Step 2:</b> Choose Model Version</label>
+        <select id="astica_ML_version">
+            <option value="GPT-S2">GPT-S</option>
+        </select>  
+  
+        <label for=""><b>Step 3:</b> Parameters </label>
+
+        <div class="col-sm-6" style="">
+            <label class="bs-tooltip" title="Determines how much content asticaGPT will produce" style="font-weight:bold;">Response Length <sup><i class="fa fa-question-circle"></i></sup></label>
+            <div class="input-group mb-4 ">		
+                <input id="astica_ML_tokens_max" onchange="asticaGPT_ChangeSlider('tokens_max');" oninput="asticaGPT_ChangeSlider('tokens_max');" class="" min="20" max="1000" value="55" step="10" type="range"  />																		
+                <output class="astica_ML_tokens_max_label" for="astica_ML_tokens_max"><span>55 Max Tokens</span></output>
+            </div>															
+        </div>
+        
+        <div class="col-sm-6" style="">
+            <label class="bs-tooltip" title="Determines how much content asticaGPT will produce" style="font-weight:bold;">Temperature <sup><i class="fa fa-question-circle"></i></sup></label>
+            <div class="input-group mb-4 ">		
+                <input id="astica_ML_temperature" onchange="asticaGPT_ChangeSlider('temperature');" oninput="asticaGPT_ChangeSlider('temperature');" class="" min="0" max="1.5" value="0.7" step="0.1" type="range"  />																		
+                <output class="astica_ML_temperature_label" for="astica_ML_temperature"><span>0.7 Temperature</span></output>
+            </div>															
+        </div>
+        
+        <div class="col-sm-6" style="">
+            <label class="bs-tooltip" title="Determines how much content asticaGPT will produce" style="font-weight:bold;">Top P <sup><i class="fa fa-question-circle"></i></sup></label>
+            <div class="input-group mb-4 ">		
+                <input id="astica_ML_top_p" onchange="asticaGPT_ChangeSlider('top_p');" oninput="asticaGPT_ChangeSlider('top_p');" class="" min="0" max="1.5" value="0.35" step="0.1" type="range"  />																		
+                <output class="astica_ML_top_p_label" for="astica_ML_top_p"><span>0.35 Top P</span></output>
+            </div>															
+        </div>
+        
+        <label for="astica_ML_think_pass">Number of Think Pass</label>
+        <select id="astica_ML_think_pass" style="max-width:90px;">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>	
+            <option value="4">4</option>
+        </select>
+        
+        <label for="astica_ML_stream_output">Stream Output (real-time generation)</label>
+        <select id="astica_ML_stream_output" style="max-width:90px;">
+            <option value="0">0</option>
+            <option value="1" selected>1</option>
+        </select>
+        <label for="astica_ML_stop_sequence">Stop Sequence <small>(Comma separated)</small></label>
+        <input type="text" id="astica_ML_stop_sequence" placeholder="Human:,AI:" value="">
+        
+        <label for="astica_ML_gpt_instruction"><b>Step 4:</b> Optional Instruction</label>
+        <textarea id="astica_ML_gpt_instruction" style="min-height:55px;" placeholder="Optional context for prompt"></textarea>
+       
+        <label for="astica_ML_gpt_input"><b>Step 5:</b> Enter Prompt</label>
+        <textarea id="astica_ML_gpt_input" style="min-height:45px;" placeholder="Enter your GPT-S prompt here..">Write a sentence about the iphone 12:</textarea>
+       
+        <button id="astica_demoSubmit" onclick="asticaGPT_Example();">Generate</button>
+        
+        <label for="astica_ML_gpt_output"><b>GPT-S Output:</b></label>
+        <textarea id="astica_ML_gpt_output" style="min-height:75px;width:550px;" placeholder="Result of your GPT prompt will appear here.."></textarea>
+       
+        <script>   
+            function asticaGPT_Example() {
+                if(document.getElementById("astica_ML_apikey").value == '') { 
+                    alert("Please provide your astica.org API key");
+                    return;
+                }               
+                asticaAPI_start(document.getElementById("astica_ML_apikey").value); //only needs to be called once
+                
+                $('#astica_ML_gpt_output').val('Loading..')
+                var asticaGPT_params = {
+                    instruction:document.getElementById("astica_ML_gpt_instruction").value,
+                    temperature:document.getElementById("astica_ML_temperature").value,
+                    top_p:document.getElementById("astica_ML_top_p").value,
+                    think_pass:document.getElementById("astica_ML_think_pass").value,
+                    stop_sequence:document.getElementById("astica_ML_stop_sequence").value,
+                    stream_output: document.getElementById("astica_ML_stream_output").value
+                }
+                asticaGPT(
+                    document.getElementById("astica_ML_version").value,
+                    document.getElementById("astica_ML_gpt_input").value,
+                    document.getElementById("astica_ML_tokens_max").value,
+                    asticaGPT_params
+                );        
+                document.getElementById("astica_demoSubmit").disabled = true;
+                setTimeout(function() {
+                    document.getElementById("astica_demoSubmit").disabled = false;
+                }, 2000);                
+            }   
+            function asticaGPT_generateComplete(data){
+                console.log(data);
+                if(typeof data.error != 'undefined') { alert(data.error); return; }  
+                $('#astica_ML_gpt_output').val(data.output)
+            }        
+            function asticaGPT_generatePreview(data){   
+                console.log(data);               
+                if(typeof data.error != 'undefined') { alert(data.error); }   
+                $('#astica_ML_gpt_output').val(data.output)          
+            }             
+            //for demo ui
+            function asticaGPT_ChangeSlider(input_title) {
+                var postFix = '';
+                if(input_title == 'tokens_max') { postFix = ' Max Tokens';}
+                if(input_title == 'temperature') { postFix = ' Temperature';}
+                if(input_title == 'top_p') { postFix = ' Top P';}
+                $('.astica_ML_'+input_title+'_label').html($('#astica_ML_'+input_title).val()+''+postFix);
+            }
+        </script>
+        
+        
+        
+        
+        
+        <br><br><hr><h2>asticaGPT - Generate Usage:</h2>
+        <pre>&lt;script src="<span class="color-lightblue bold">https://astica.ai/javascript-sdk/2023-07-09/astica.api.js</span>"&gt;&lt;/script&gt;
+&lt;script&gt;
+    asticaAPI_start('API KEY HERE'); //only needs to be called once.        
+    
+    
+    //Simple Usage:
+    asticaGPT("Write a sentence about apples:")
+    
+    //With Token Limit:
+    asticaGPT("Write a sentence about apples:", 10)
+    
+    //Advanced:
+     var asticaGPT_params = {
+        instruction:document.getElementById("astica_ML_temperature").value,
+        temperature:document.getElementById("astica_ML_temperature").value,
+        top_p:document.getElementById("astica_ML_top_p").value,
+        think_pass:document.getElementById("astica_ML_think_pass").value,
+        stop_sequence:document.getElementById("astica_ML_stop_sequence").value,
+        stream_output: document.getElementById("astica_ML_stream_output").value
+    }
+    
+    asticaGPT(
+        document.getElementById("astica_ML_version").value,
+        document.getElementById("astica_ML_gpt_input").value,
+        document.getElementById("astica_ML_tokens_max").value,
+        asticaGPT_params
+    );        
+            
+
+            
+    //default asticaGPT callbacks
+    function asticaGPT_generateComplete(data){
+        console.log(data);
+        if(typeof data.error != 'undefined') { alert(data.error); }     
+        $('#your_div').val(data.output)
+        //optional text to speech with asticaVoice:
+        asticaVoice(data.output);
+    }        
+    function asticaGPT_generatePreview(data){   
+        console.log(data);               
+        if(typeof data.error != 'undefined') { alert(data.error); return; }     
+        $('#your_div').val(data.output)                    
+    }  
+    
+    
+    //Plug and play example:
+    
+    function asticaGPT_example(string, tokens) {
+       asticaGPT(string, tokens) 
+    } 
+    setTimeout(function() { 
+        asticaAPI_start('API KEY HERE'); //only needs to be called once.   
+        asticaGPT_example('Write a sentence about apples:', 55); //max 55 tokens
+    }, 1000);  
+
+&lt;/script&gt;
+</pre>      
+
+        <!--- Demo assets; non-API related --->
+        <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">  
+        <a href="https://www.astica.org/?fr=voice-speak"><img src="asset/img/icon.png" id="astica_icon"></a>        
+        <link href="asset/css/style.css" rel="stylesheet">  
+        <link href="asset/js/demo.js" rel="stylesheet"> 
+    </body>
+</html>
