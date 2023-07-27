@@ -14,7 +14,7 @@ var astica_input = 'https://astica.ai/example/asticaVision_sample.jpg';
 
 
 const requestData = {
-  tkn: '26d7e90d0b2090b30b921ls1',  // //visit https://astica.ai
+  tkn: 'YOUR API KEY',  // //visit https://astica.ai
   modelVersion: '2.1_full',         ////1.0_full, 2.0_full, or 2.1_full
   input: astica_input,
   visionParams: 'description,tags', //comma separated, see below
