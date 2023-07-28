@@ -24,7 +24,7 @@
 <br />
 <div align="center">
   <a href="https://astica.ai">
-    <img src="examples/javascript-API/asset/img/icon.png" alt="astica" width="80" height="80">
+    <img src="examples/javascript-sdk/asset/img/icon.png" alt="astica" width="80" height="80">
   </a>
 
   <h3 align="center">astica Cognitive API</h3>
@@ -309,7 +309,7 @@ _Get started by including the astica.api.js within your project._
 
 success@onamal.com
 
-[https://github.com/alanine/astica-cognitive-api/tree/main/examples/javascript-API](https://github.com/alanine/astica-cognitive-api/tree/main/examples/javascript-API)
+[https://github.com/alanine/astica-cognitive-api/](https://github.com/alanine/astica-cognitive-api/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
