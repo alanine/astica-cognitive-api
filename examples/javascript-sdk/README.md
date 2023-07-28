@@ -309,7 +309,7 @@ _Get started by including the astica.api.js within your project._
 
 success@onamal.com
 
-[https://github.com/alanine/astica-cognitive-api/tree/main/examples/javascript-API](https://github.com/alanine/astica-cognitive-api/tree/main/examples/javascript-API)
+[https://github.com/alanine/astica-cognitive-api/](https://github.com/alanine/astica-cognitive-api/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
