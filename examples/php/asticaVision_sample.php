@@ -5,7 +5,17 @@
     $asticaAPI_endpoint = 'https://vision.astica.ai/describe';
     $asticaAPI_modelVersion = '2.1_full';  //1.0_full or 2.0_full  
 
-    $asticaAPI_input = 'https://astica.ai/example/asticaVision_sample.jpg'; //or base64 encoded string: data:image/png;base64,iVBORw0KG.....
+    //Input Method 1: https URL of a jpg/png image (faster)
+    $asticaAPI_input = 'https://astica.ai/example/asticaVision_sample.jpg'; 
+    
+    /*
+    //Input Method 2: base64 encoded string of a local image (slower)  
+    $image_path = 'image.jpg';
+    $image_data = file_get_contents($image_path);
+    $image_extension = pathinfo($image_path, PATHINFO_EXTENSION);
+    $asticaAPI_input = 'data:image/' . $image_extension . ';base64,' . base64_encode($image_data);
+    */
+    
     $asticaAPI_visionParams = 'objects, faces'; //comma separated options; leave blank for all; note "gpt" and "gpt_detailed" are slow.
     /*
         '1.0_full' supported options:
