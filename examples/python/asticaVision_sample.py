@@ -2,38 +2,36 @@ import requests
 import json
 import base64
 import os
-
-def asticaAPI(endpoint, payload, timeout):
-    response = requests.post(endpoint, data=json.dumps(payload), timeout=timeout, headers={ 'Content-Type': 'application/json', })
-    if response.status_code == 200:
-        return response.json()
-    else:
-        return {'status': 'error', 'error': 'Failed to connect to the API.'}
-
-asticaAPI_key = 'YOUR API KEY' # visit https://astica.ai
-asticaAPI_timeout = 35 # seconds  Using "gpt" or "gpt_detailed" will increase response time.
-
+def get_image_base64_encoding(image_path: str) -> str:
+    """
+    Function to return the base64 string representation of an image
+    """
+    with open(image_path, 'rb') as file:
+        image_data = file.read()
+    image_extension = os.path.splitext(image_path)[1]
+    base64_encoded = base64.b64encode(image_data).decode('utf-8')
+    return f"data:image/{image_extension[1:]};base64,{base64_encoded}"
+    
+# API configurations
+asticaAPI_key = 'YOUR API KEY'  # visit https://astica.ai
+asticaAPI_timeout = 25 # in seconds. "gpt" or "gpt_detailed" require increased timeouts
 asticaAPI_endpoint = 'https://vision.astica.ai/describe'
-asticaAPI_modelVersion = '2.1_full' # '1.0_full' or '2.0_full'
+asticaAPI_modelVersion = '2.1_full' # '1.0_full', '2.0_full', or '2.1_full'
 
-#Input Method 1: https URL of a jpg/png image (faster)
-asticaAPI_input = 'https://astica.ai/example/asticaVision_sample.jpg' 
-
-'''
-#Input Method 2: base64 encoded string of a local image (slower)
-path_to_local_file = 'image.jpg';
-with open(path_to_local_file, 'rb') as file:
-    image_data = file.read()
-image_extension = os.path.splitext(path_to_local_file)[1]
-#For now, let's make sure to prepend appropriately with: "data:image/extension_here;base64" 
-asticaAPI_input = f"data:image/{image_extension[1:]};base64,{base64.b64encode(image_data).decode('utf-8')}"
-'''
+if 1 == 1:
+    asticaAPI_input = 'https://astica.ai/example/asticaVision_sample.jpg' # use https image input (faster)
+else:
+    asticaAPI_input = get_image_base64_encoding('image.jpg')  # use base64 image input (slower)
 
 
-asticaAPI_visionParams = 'objects,faces' # comma separated options; leave blank for all; note "gpt" and "gpt_detailed" are slow.
-'''
-    '1.0_full' supported options:
-        description
+# vision parameters:  https://astica.ai/vision/documentation/#parameters
+asticaAPI_visionParams = 'gpt,describe,objects,faces'  # comma separated, defaults to "all". 
+asticaAPI_gpt_prompt = '' # only used if visionParams includes "gpt" or "gpt_detailed"
+asticaAPI_prompt_length = '90' # number of words in GPT response
+
+'''    
+    '1.0_full' supported visionParams:
+        describe
         objects
         categories
         moderate
@@ -43,19 +41,20 @@ asticaAPI_visionParams = 'objects,faces' # comma separated options; leave blank 
         faces
         celebrities
         landmarks
-        gpt new (Slow - be patient)
-        gpt_detailed new (Much Slower)
+        gpt               (Slow)
+        gpt_detailed      (Slower)
 
-    '2.0_full' supported options:
-        description
+    '2.0_full' supported visionParams:
+        describe
+        describe_all
         objects
         tags
-        describe_all new
-        text_read new
-        gpt new (Slow - be patient)
-        gpt_detailed new (Much Slower)
+        describe_all 
+        text_read 
+        gpt             (Slow)
+        gpt_detailed    (Slower)
         
-    '2.1_full' supported options:
+    '2.1_full' supported visionParams:
         Supports all options 
         
 '''
@@ -68,14 +67,25 @@ asticaAPI_payload = {
     'input': asticaAPI_input,
 }
 
-# Call API function and store result
+
+
+def asticaAPI(endpoint, payload, timeout):
+    response = requests.post(endpoint, data=json.dumps(payload), timeout=timeout, headers={ 'Content-Type': 'application/json', })
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return {'status': 'error', 'error': 'Failed to connect to the API.'}
+
+
+
+# call API function and store result
 asticaAPI_result = asticaAPI(asticaAPI_endpoint, asticaAPI_payload, asticaAPI_timeout)
 
+# print API output
 print('\nastica API Output:')
 print(json.dumps(asticaAPI_result, indent=4))
 print('=================')
 print('=================')
-
 # Handle asticaAPI response
 if 'status' in asticaAPI_result:
     # Output Error if exists
