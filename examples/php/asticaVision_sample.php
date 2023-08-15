@@ -34,22 +34,22 @@
             faces
             celebrities
             landmarks
-            gpt new (Slow - be patient)
-            gpt_detailed new (Much Slower)
+            gpt              (Slow)
+            gpt_detailed     (Slower)
             
         '2.0_full' supported options:
             description
             objects
             tags
-            describe_all new
-            text_read new
-            gpt new (Slow - be patient)
-            gpt_detailed new (Much Slower)
+            describe_all 
+            text_read 
+            gpt             (Slow)
+            gpt_detailed    (Slower)
             
-         '2.0_full' supported options:
+         '2.1_full' supported options:
             Supports all options 
             
-     */
+    */
 
     // Define payload array
     $asticaAPI_payload = [
