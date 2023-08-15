@@ -65,6 +65,8 @@ asticaAPI_payload = {
     'modelVersion': asticaAPI_modelVersion,
     'visionParams': asticaAPI_visionParams,
     'input': asticaAPI_input,
+    'gpt_prompt': asticaAPI_gpt_prompt,
+    'prompt_length': asticaAPI_prompt_length,
 }
 
 
