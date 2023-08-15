@@ -1,6 +1,6 @@
 <?php    
     $asticaAPI_key = 'YOUR API KEY'; //visit https://astica.ai
-    $asticaAPI_timeout = 60; // seconds  Using "gpt" or "gpt_detailed" will increase response time.
+    $asticaAPI_timeout = 30; // seconds  Using "gpt" or "gpt_detailed" will increase response time.
 
     $asticaAPI_endpoint = 'https://vision.astica.ai/describe';
     $asticaAPI_modelVersion = '2.1_full';  //1.0_full or 2.0_full  
@@ -16,7 +16,12 @@
     $asticaAPI_input = 'data:image/' . $image_extension . ';base64,' . base64_encode($image_data);
     */
     
-    $asticaAPI_visionParams = 'objects, faces'; //comma separated options; leave blank for all; note "gpt" and "gpt_detailed" are slow.
+    //comma separated options; leave blank for all; note "gpt" and "gpt_detailed" are slower.
+    //see all: https://astica.ai/vision/documentation/#parameters
+    $asticaAPI_visionParams = 'gpt, describe, describe_all, tags, objects, faces'; 
+    $asticaAPI_gpt_prompt = ''; // only used if visionParams includes "gpt" or "gpt_detailed"
+    $asticaAPI_prompt_length = '90'; // number of words in GPT response
+    
     /*
         '1.0_full' supported options:
             description
@@ -50,8 +55,10 @@
     $asticaAPI_payload = [
         'tkn' => $asticaAPI_key,
         'modelVersion' => $asticaAPI_modelVersion,
-        'visionParams' => $asticaAPI_visionParams,
         'input' => $asticaAPI_input,
+        'visionParams' => $asticaAPI_visionParams,
+        'gpt_prompt' => $asticaAPI_gpt_prompt,
+        'prompt_length' => $asticaAPI_prompt_length
     ];
     
     // Call API function and store result
