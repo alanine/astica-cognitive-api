@@ -3,19 +3,21 @@
     $asticaAPI_timeout = 10; // API request timeout in seconds
 
     $asticaAPI_endpoint = 'https://voice.astica.ai/speak';
-    $asticaAPI_modelVersion = '1.0_full';  //1.0_full or 2.0_full  
+    $asticaAPI_modelVersion = '1.0_full'; 
 
     $asticaAPI_voiceid = 0; //See: https://astica.ai/voice/documentation/
     $asticaAPI_input = 'hello, how are you doing today?'; //text to be spoken    
+    $asticaAPI_lang = 'en-US'; # language code
     
-    $asticaAPI_outputFile = 'output.jpg';
+    $asticaAPI_outputFile = 'output.wav';
     
     // Define payload array 
     $asticaAPI_payload = [
         'tkn' => $asticaAPI_key,
         'modelVersion' => $asticaAPI_modelVersion,
         'input' => $asticaAPI_input,
-        'voice' => $asticaAPI_voiceid
+        'voice' => $asticaAPI_voiceid,
+        'lang' => $asticaAPI_lang
     ];
     
     // Call API function and store result
