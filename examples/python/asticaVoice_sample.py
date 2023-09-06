@@ -15,7 +15,7 @@ asticaAPI_input = 'hello, how are you doing today?' # text to be spoken
 asticaAPI_lang = 'en-US' # language code
 
 asticaAPI_outputFile = 'output.wav' #save audio file of speech
-asticaAPI_outputPlayback = True #pip install sounddevice numpy
+asticaAPI_outputPlayback = False #pip install sounddevice numpy
 # Define payload dictionary
 asticaAPI_payload = {
     'tkn': asticaAPI_key,
