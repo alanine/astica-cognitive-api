@@ -1,6 +1,6 @@
 <?php
     $asticaAPI_key = 'YOUR API KEY'; //visit https://astica.ai
-    $asticaAPI_timeout = 25; // seconds
+    $asticaAPI_timeout = 15; // seconds
 
     $asticaAPI_endpoint = 'https://listen.astica.ai/transcribe';
     $asticaAPI_modelVersion = '1.0_full';
@@ -9,7 +9,13 @@
     $asticaAPI_low_priority = 0; //Lower costs by receiving a URL to query for results. 
     
     $asticaAPI_input = 'https://astica.ai/example/asticaListen_sample.wav';
-
+    /*
+    //Input Method 2: base64 encoded string of a local image (slower)  
+        $path_to_local_file = 'input.wav';
+        $audio_data = file_get_contents($path_to_local_file);
+        $audio_extension = pathinfo($path_to_local_file, PATHINFO_EXTENSION);
+        $asticaAPI_input = 'data:audio/' . $audio_extension . ';base64,' . base64_encode($audio_data);
+    */
     // Define payload array
     $asticaAPI_payload = [
         'tkn' => $asticaAPI_key,
