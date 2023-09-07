@@ -1,4 +1,5 @@
 const axios = require('axios');
+const fs = require('fs');
 
 
 const asticaAPI_key = 'YOUR API KEY';
@@ -8,8 +9,15 @@ const asticaAPI_endpoint = 'https://listen.astica.ai/transcribe';
 const asticaAPI_modelVersion = '1.0_full';
 const asticaAPI_doStream = 0;
 const asticaAPI_low_priority = 0;
+
+//Input Method 1: https URL of a jpg/png image (faster)
 const asticaAPI_input = 'https://astica.ai/example/asticaListen_sample.wav';
 
+//Input Method 2: base64 encoded string of a local image (slower)  
+var path_to_local_file = 'input.wav';
+var astica_input = fs.readFileSync(path_to_local_file).toString('base64');
+
+//Prepare payload
 const asticaAPI_payload = {
     tkn: asticaAPI_key,
     modelVersion: asticaAPI_modelVersion,
@@ -18,8 +26,9 @@ const asticaAPI_payload = {
     low_priority: asticaAPI_low_priority
 };
 
-(async () => {
-    
+
+//Demo function
+(async () => {    
     // Submit request
     const result = await asticaAPI(asticaAPI_endpoint, asticaAPI_payload, asticaAPI_timeout);    
     console.log('astica API Output:\n', JSON.stringify(result, null, 4));
