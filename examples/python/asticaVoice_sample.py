@@ -6,7 +6,7 @@ import os
 
 # API configurations
 asticaAPI_key = 'YOUR API KEY'  # visit https://astica.ai
-asticaAPI_timeout = 10 # in seconds.
+asticaAPI_timeout = 20 # in seconds.
 asticaAPI_endpoint = 'https://voice.astica.ai/speak'
 asticaAPI_modelVersion = '1.0_full'
 
@@ -15,7 +15,7 @@ asticaAPI_input = 'hello, how are you doing today?' # text to be spoken
 asticaAPI_lang = 'en-US' # language code
 
 asticaAPI_outputFile = 'output.wav' #save audio file of speech
-asticaAPI_outputPlayback = False #pip install sounddevice numpy
+asticaAPI_outputPlayback = True #pip install sounddevice numpy
 # Define payload dictionary
 asticaAPI_payload = {
     'tkn': asticaAPI_key,
@@ -40,9 +40,6 @@ def asticaAPI(endpoint, payload, timeout):
 asticaAPI_result = asticaAPI(asticaAPI_endpoint, asticaAPI_payload, asticaAPI_timeout)
 
 # print API output
-print('\nastica API Output:')
-print(json.dumps(asticaAPI_result, indent=4))
-print('=================')
 # Handle asticaAPI response
 if 'status' in asticaAPI_result:
     # Output Error if exists
@@ -54,13 +51,9 @@ if 'status' in asticaAPI_result:
         
         #handle wav buffer
         wavData = bytes(asticaAPI_result['wavBuffer']['data'])
-        
-        #save wav file
-        with open(asticaAPI_outputFile, 'wb') as f:
-            f.write(wavData)
-            
+         
+        #optionally play wav file
         if asticaAPI_outputPlayback: 
-            #or play wav file
             import sounddevice as sd #pip install sounddevice
             import numpy as np
             wav_array = np.frombuffer(wavData, dtype=np.int16)
@@ -69,7 +62,15 @@ if 'status' in asticaAPI_result:
             # play sound
             sd.play(wav_array, fs)
             # use this during sound playback, otherwise the sound will stop immediately
-            sd.wait()    
-        
+            sd.wait()  
+            
+        #save wav file
+        with open(asticaAPI_outputFile, 'wb') as f:
+            f.write(wavData)
+
+    print('\nastica API Output:')
+    print(json.dumps(asticaAPI_result, indent=4))
+    print('=================')
+           
 else:
     print('Invalid response')
