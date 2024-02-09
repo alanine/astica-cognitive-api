@@ -3,7 +3,7 @@
     $asticaAPI_timeout = 30; // seconds  Using "gpt" or "gpt_detailed" will increase response time.
 
     $asticaAPI_endpoint = 'https://vision.astica.ai/describe';
-    $asticaAPI_modelVersion = '2.1_full';  //1.0_full or 2.0_full  
+    $asticaAPI_modelVersion = '2.1_full';  //1.0_full, 2.0_full, or 2.1_full 
 
     //Input Method 1: https URL of a jpg/png image (faster)
     $asticaAPI_input = 'https://astica.ai/example/asticaVision_sample.jpg'; 
