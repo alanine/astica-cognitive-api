@@ -4,9 +4,8 @@
         <link rel="apple-touch-icon" sizes="180x180" href="asset/img/favi/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="asset/img/favi/favicon-32x32.png"> 
         <link rel="icon" type="image/png" sizes="16x16" href="asset/img/favi/favicon-16x16.png">
-        
-        <!-- include astica javascript api version 2023-04-10 -->
-        <script src="https://astica.ai/javascript-sdk/2023-07-09/astica.api.js"></script>    
+        <!-- include astica javascript api sdk version 2024-01-31 -->
+        <script src="https://astica.ai/javascript-sdk/2024-01-31/astica.api.js"></script>   
     </head>
     <body>
         <h1><a href="https://astica.ai/?fr=vision-jsapi"><img src="asset/img/icon.png" id="astica_icon_head"></a> asticaVision: Describe Image - Javascript Client API</h1>
@@ -21,6 +20,7 @@
            
            <label for="astica_ML_apikey"><b>Step 2:</b> Choose Model Version</label>
             <select id="astica_ML_version">
+                <option value="2.1_full">2.1_full (recommended)</option>
                 <option value="1.0_full">1.0_full</option>
                 <option value="2.0_full">2.0_full</option>
             </select>
@@ -66,68 +66,81 @@
             
                
            
-            <img src="https://www.astica.org/img/icon.png" id="astica_ML_vision_input" style="display: none; width:300px;  margin:40px 0px;"></textarea>
+            <div id="astica_ML_vision_input_loading" style="text-align:center; width:300px; display: none;" >
+                <img src="asset/img/load.gif" id="" style="width:150px;  margin:40px 0px; border: 0;">
+                <h3>Loading</h3>
+            </div>
+            <img src="asset/img/icon.png" id="astica_ML_vision_input" style="display: none; width:300px;  margin:40px 0px;">
+            
             
             <h2 id="astica_ML_vision_output_title" style="display:none;">asticaVision Output:</h2>
             <pre id="astica_ML_vision_output" style="display:none;"></pre>
             
             
+
              
-        <script>
-            function asticaVision_describeExample() {
-                if(document.getElementById("astica_ML_apikey").value == '') { 
-                    alert("Please provide your astica.org API key");
-                    return;
-                }               
-                asticaAPI_start(document.getElementById("astica_ML_apikey").value); //only needs to be called once.               
-                document.getElementById("astica_ML_vision_output").innerHTML = '';   
+            <script>
+                function asticaVision_describeExample() {
+                    if(document.getElementById("astica_ML_apikey").value == '') { 
+                        alert("Please provide your astica.org API key");
+                        return;
+                    }               
+                    asticaAPI_start(document.getElementById("astica_ML_apikey").value); //only needs to be called once.               
+                    document.getElementById("astica_ML_vision_output").innerHTML = '';   
+                    
+                    var vision_image_display = document.getElementById("astica_ML_analyze_input").value;
+                    var vision_image_display_imgtag = vision_image_display;
+                    if(!vision_image_display.includes('http')) { 
+                        vision_image_display_imgtag = vision_image_display;
+                        vision_image_display = 'data:image/jpeg;base64,'+vision_image_display;                     
+                    }
+                    
+                    document.getElementById("astica_ML_vision_input").src = vision_image_display_imgtag;               
+                    document.getElementById("astica_ML_vision_input").style.display = 'block';            
+                    document.getElementById("astica_ML_vision_input_loading").style.display = 'block';            
+                    
+                    var astica_ML_options = document.getElementById("astica_ML_options").value; 
+                    if(astica_ML_options == '') { astica_ML_options = 'all'; }
+                    console.log(astica_ML_options);
+                    asticaVision(
+                        document.getElementById("astica_ML_version").value,
+                        document.getElementById("astica_ML_analyze_input").value,
+                        astica_ML_options,
+                        your_astica_CallBack,
+                    );
+                    document.getElementById("astica_demoSubmit").disabled = true;
+                    setTimeout(function() {
+                        document.getElementById("astica_demoSubmit").disabled = false;
+                    }, 1500);  
+                }  
+                function your_astica_CallBack(data) {             
+                    document.getElementById("astica_ML_vision_output_title").style.display = 'block';
+                    document.getElementById("astica_ML_vision_output").style.display = 'block';
+                    document.getElementById("astica_ML_vision_input_loading").style.display = 'none';
+                    document.getElementById("astica_ML_vision_output").textContent = JSON.stringify(data, null, 2);
+                    document.getElementById("astica_ML_vision_output").scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+                    console.log(data); //view all data
+                }	
                 
-                var vision_image_display = document.getElementById("astica_ML_analyze_input").value;
-                if(!vision_image_display.includes('http')) { vision_image_display = 'data:image/jpeg;base64,'+vision_image_display; }
-                document.getElementById("astica_ML_vision_input").src = vision_image_display                           
-                
-                var astica_ML_options = document.getElementById("astica_ML_options").value; 
-                if(astica_ML_options == '') { astica_ML_options = 'all'; }
-                console.log(astica_ML_options);
-                asticaVision(
-                    document.getElementById("astica_ML_version").value,
-                    document.getElementById("astica_ML_analyze_input").value,
-                    astica_ML_options,
-                    your_astica_CallBack,
-                );
-                document.getElementById("astica_demoSubmit").disabled = true;
-                setTimeout(function() {
-                    document.getElementById("astica_demoSubmit").disabled = false;
-                }, 1500);  
-            }  
-            function your_astica_CallBack(data) {             
-                document.getElementById("astica_ML_vision_output_title").style.display = 'block';
-                document.getElementById("astica_ML_vision_output").style.display = 'block';
-                document.getElementById("astica_ML_vision_input").style.display = 'block';
-                document.getElementById("astica_ML_vision_output").textContent = JSON.stringify(data, null, 2);
-                document.getElementById("astica_ML_vision_output").scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
-                console.log(data); //view all data
-            }	
-            
-            //Little base64 helper for local files:
-            function convertFileToBase64(file) {
-                return new Promise((resolve, reject) => {
-                  const reader = new FileReader();
-                  reader.readAsDataURL(file);
-                  reader.onload = () => resolve(reader.result);
-                  reader.onerror = (error) => reject(error);
-                });
-            }
-            document.getElementById("astica_ML_file_input").addEventListener("change", async function() {
-                const file = this.files[0];
-                if (file) {
-                  const base64Image = await convertFileToBase64(file);
-                  document.getElementById("astica_ML_analyze_input").value = base64Image;
-                  document.getElementById("astica_ML_file_input").value = '';
-                  asticaVision_describeExample();
+                //Little base64 helper for local files:
+                function convertFileToBase64(file) {
+                    return new Promise((resolve, reject) => {
+                      const reader = new FileReader();
+                      reader.readAsDataURL(file);
+                      reader.onload = () => resolve(reader.result);
+                      reader.onerror = (error) => reject(error);
+                    });
                 }
-            });
-        </script> 
+                document.getElementById("astica_ML_file_input").addEventListener("change", async function() {
+                    const file = this.files[0];
+                    if (file) {
+                      const base64Image = await convertFileToBase64(file);
+                      document.getElementById("astica_ML_analyze_input").value = base64Image;
+                      document.getElementById("astica_ML_file_input").value = '';
+                      asticaVision_describeExample();
+                    }
+                });
+            </script> 
         
         
         
@@ -176,6 +189,5 @@
         <a href="https://www.astica.org/?fr=vision-analyze"><img src="asset/img/icon.png" id="astica_icon"></a>
         <link href="asset/css/style.css" rel="stylesheet">  
         <link href="asset/js/demo.js" rel="stylesheet">    
-
     </body>
 </html>
