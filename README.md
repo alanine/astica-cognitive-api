@@ -37,7 +37,7 @@
     <br />
     <a href="https://astica.ai/vision/describe/?fr=git" title="asticaVision demo">Vision Demo</a>
     ·
-    <a href="https://astica.ai/code-examples/javascript-API/asticaListen_sample.html" title="asticaListen demo">Listen Demo</a>
+    <a href="https://astica.ai/hearing/speech-to-text/" title="asticaListen demo">Hearing Demo</a>
     ·
     <a href="https://astica.ai/code-examples/javascript-API/asticaVoice_sample.html" title="asticaVoice demo">Voice Demo</a>
     ·
