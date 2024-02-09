@@ -23,7 +23,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://astica.org">
+  <a href="https://astica.ai">
     <img src="asset/img/icon.png" alt="astica" width="80" height="80">
   </a>
 
@@ -58,7 +58,7 @@ These demonstrations require an API key for the astica.ai cognitive API. You can
 
 
   ```js
-<script src="https://astica.ai/javascript-sdk/2023-07-09/astica.api.js"></script>
+<script src="https://astica.ai/javascript-sdk/2024-01-31/astica.api.js"></script>
 <script>
     asticaAPI_start('API KEY HERE'); //only needs to be called once.        
     
@@ -87,7 +87,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://astica.ai/javascript-sdk/2023-07-09/astica.api.js"></script>
+    <script src="https://astica.ai/javascript-sdk/2024-01-31/astica.api.js"></script>
    ```
    
 3. Authenticate:
@@ -102,7 +102,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://astica.ai/javascript-sdk/2023-07-09/astica.api.js"></script>
+    <script src="https://astica.ai/javascript-sdk/2024-01-31/astica.api.js"></script>
     <script>
         asticaAPI_start('API KEY HERE'); //run at least once    
 
@@ -133,7 +133,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://astica.ai/javascript-sdk/2023-07-09/astica.api.js"></script>
+    <script src="https://astica.ai/javascript-sdk/2024-01-31/astica.api.js"></script>
     <script>
         //simple usage
         function asticaListen_Sample_simple() {  
@@ -172,7 +172,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://astica.ai/javascript-sdk/2023-07-09/astica.api.js"></script>
+    <script src="https://astica.ai/javascript-sdk/2024-01-31/astica.api.js"></script>
     <script>
         var asticaTranscribeFile_input = document.getElementById('astica_ML_voice_input');     
         var asticaTranscribeFile_localData;
@@ -199,7 +199,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://astica.ai/javascript-sdk/2023-07-09/astica.api.js"></script>
+    <script src="https://astica.ai/javascript-sdk/2024-01-31/astica.api.js"></script>
     <script>
         asticaAPI_start('API KEY HERE'); //only needs to be called once.        
         
@@ -242,7 +242,7 @@ _Get started by including the astica.api.js within your project._
 
 
    ```js
-    <script src="https://astica.ai/javascript-sdk/2023-07-09/astica.api.js"></script>
+    <script src="https://astica.ai/javascript-sdk/2024-01-31/astica.api.js"></script>
     <script>
         asticaAPI_start('API KEY HERE'); //only needs to be called once.  
 
