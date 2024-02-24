@@ -4,7 +4,7 @@ import json
 
 # API configurations
 asticaAPI_key = 'YOUR API KEY'  # visit https://astica.ai
-asticaAPI_timeout = 20 # in seconds.
+asticaAPI_timeout = 60 # in seconds.
 
 asticaAPI_endpoint = 'https://design.astica.ai/generate_image'
 asticaAPI_modelVersion = '2.0_full'
