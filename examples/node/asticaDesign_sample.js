@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-var asticaAPI_timeout = 120;
+var asticaAPI_timeout = 60;
 var asticaAPI_key = 'YOUR API KEY'; // Put your API key here
 
 // See Input Documentation:  https://astica.ai/design/documentation/#inputs
@@ -41,7 +41,7 @@ var asticaAPI_payload = {
     } else if (result.status === 'success') {
         if (result.resultURI) {
             console.log('===============');
-            console.log('Low Priority URI:', result.resultURI, '\nQuery this URL to obtain the output of your results');
+            console.log('Low Priority URI: ', result.resultURI, '\nQuery this URL to obtain the output of your results');
             console.log('===============');
         } else {
             console.log('===============');
