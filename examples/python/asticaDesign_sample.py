@@ -1,10 +1,11 @@
 import requests
 import json
 
-
 # API configurations
 asticaAPI_key = 'YOUR API KEY'  # visit https://astica.ai
 asticaAPI_timeout = 60 # in seconds.
+
+#See Input Documentation:  https://astica.ai/design/documentation/#inputs
 
 asticaAPI_endpoint = 'https://design.astica.ai/generate_image'
 asticaAPI_modelVersion = '2.0_full'
@@ -52,7 +53,7 @@ if 'status' in asticaAPI_result:
     elif asticaAPI_result['status'] == 'success':
         if 'resultURI' in asticaAPI_result:
             print('===============')
-            print('Low Priority URI:', asticaAPI_result['resultURI'], '\nQuery this URL to obtain the output of your results')
+            print('Low Priority URI: ', asticaAPI_result['resultURI'], '\nQuery this URL to obtain the output of your results')
             print('===============')
         else:
             print('===============')
