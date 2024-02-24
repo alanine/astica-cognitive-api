@@ -1,4 +1,7 @@
+//asticaDesign Image Generation API
 var asticaAPI_endpoint = 'https://design.astica.ai/generate_image';
+
+// See Input Documentation:  https://astica.ai/design/documentation/#inputs
 var asticaAPI_payload = {
     tkn: 'YOUR API KEY',  //visit https://astica.ai
     modelVersion: '2.0_full',
@@ -25,7 +28,7 @@ fetch(asticaAPI_endpoint, {
     console.log(data)
     if (data.resultURI) {
         console.log('===============');
-        console.log('Low Priority URI:', data.resultURI, '\nQuery this URL to obtain the output of your results');
+        console.log('Low Priority URI: ', data.resultURI, '\nQuery this URL to obtain the output of your results');
         console.log('===============');
     } else {
         console.log('===============');
