@@ -1,0 +1,173 @@
+<html>
+    <head>
+        <title>asticaDesign: Generate Realistic Photos With AI</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="asset/img/favi/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="asset/img/favi/favicon-32x32.png"> 
+        <link rel="icon" type="image/png" sizes="16x16" href="asset/img/favi/favicon-16x16.png">
+        <!-- include astica javascript api sdk version 2024-01-31 -->
+        <script src="https://astica.ai/javascript-sdk/2024-01-31/astica.api.js"></script>   
+    </head>
+    <body>
+        <h1><a href="https://astica.ai/?fr=vision-jsapi"><img src="asset/img/icon.png" id="astica_icon_head"></a> asticaDesign: Image Generation - Javascript Client API</h1>
+        Explore: 
+        <a href="https://astica.ai/code-examples/javascript-API/asticaVision_sample.html" title="asticaVision - Describe Images" class="explore_astica">asticaVision</a>
+        <a href="https://astica.ai/code-examples/javascript-API/asticaDesign_sample.html" title="asticaDesign - Generate Images" class="explore_astica explore_astica_active">asticaDesign</a>
+        <a href="https://astica.ai/code-examples/javascript-API/asticaListen_sample.html" title="asticListen - Speech to Text" class="explore_astica">asticaListen</a>
+        <a href="https://astica.ai/code-examples/javascript-API/asticaVoice_sample.html" title="asticVoice - Text to Speech" class="explore_astica">asticaVoice</a>
+        <a href="https://astica.ai/code-examples/javascript-API/asticaGPT_sample.html" title="asticGPT - NLP GPT-S" class="explore_astica ">asticaGPT</a>
+        <hr style="margin-top:15px;">       
+            <label for="astica_ML_apikey"><b>Step 1:</b> API Key <a href="https://astica.ai/" target="_blank" title="Get API Key" style="font-size:12px; margin-left: 15px;">Obtain your API Key</a></label>
+            <input type="text" id="astica_ML_apikey" placeholder="Enter your API Key" value="" >           
+           
+            <label for="astica_ML_version"><b>Step 2:</b> Choose Model Version</label>
+            <select id="astica_ML_version">
+                <option value="2.0_full">2.0_full</option>
+            </select>
+         
+            <label for="astica_ML_prompt"><b>Step 3:</b> Image Prompt</label>
+            <input type="text" id="astica_ML_prompt" placeholder="A cat laying on the beach.." value="" >
+           
+                    
+        <label for="astica_ML_prompt_negative"><b>Step 5:</b> Image Prompt Negative (Optional)</label>
+        <input type="text" id="astica_ML_prompt_negative" placeholder="A cat laying on the beach.." value="" >
+
+        <label for="astica_ML_generate_quality"><b>Step 6:</b> Generate Quality</label>
+        <select id="astica_ML_generate_quality">
+            <option value="high" selected>quality: high</option>
+            <option value="standard">quality: standard</option>
+            <option value="fast">quality: fast</option>
+            <option value="faster">quality: faster</option>
+        </select>
+        <label for="astica_ML_moderate"><b>Step 7:</b> Lossless Quality (Checkbox)</label>
+        <input type="checkbox" id="astica_ML_generate_lossless" style="margin-top: 9px; max-width: 40px; height:15px;">
+
+        <label for="astica_ML_moderate"><b>Step 8:</b> Moderate </label>
+        <input type="checkbox" id="astica_ML_moderate" checked readonly style="margin-top: 9px; max-width: 40px; height:15px;">
+
+        <label for="astica_ML_quantity"><b>Step 9:</b> Quantity</label>
+        <select id="astica_ML_quantity">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="4">4</option>
+            <option value="6">6</option>
+        </select>
+        <div id="astica_demoSubmit_wrap">
+        <button id="astica_demoSubmit" onclick="asticaDesign_generate_image_Example();">Generate Image</button>
+        </div >  
+
+           
+        <div id="astica_ML_design_input_loading" style="text-align:center; width:300px; display: none;" >
+            <img src="asset/img/load.gif" id="" style="width:150px;  margin:40px 0px; border: 0;">
+            <h3>Loading</h3>
+        </div>
+        <!-- Result Area -->
+        <div id="astica_ML_result_area" style="margin-top:40px;"></div>
+
+        <script>
+            function asticaDesign_generate_image_Example() {
+                var astica_api_key = document.getElementById("astica_ML_apikey").value;
+                var astica_model_version = document.getElementById("astica_ML_version").value;
+                var astica_prompt = document.getElementById("astica_ML_prompt").value;
+                var astica_prompt_negative = document.getElementById("astica_ML_prompt_negative").value;
+                var astica_generate_quality = document.getElementById("astica_ML_generate_quality").value;
+                var astica_generate_loseless = document.getElementById("astica_ML_generate_lossless").checked;
+                var astica_moderate = document.getElementById("astica_ML_moderate").checked;
+                var astica_quantity = document.getElementById("astica_ML_quantity").value;
+                
+                if(astica_api_key == '') { 
+                    alert("Please provide your astica.ai API key");
+                    return;
+                }               
+                asticaAPI_start(astica_api_key); //only needs to be called once.
+                document.getElementById("astica_demoSubmit_wrap").style.display = "none";
+                document.getElementById("astica_ML_design_input_loading").style.display = "block";
+                var delay = 5000;
+                if(astica_generate_quality == 'high') { delay = 13500; }
+                if(astica_generate_quality == 'standard') { delay = 12000; }
+                if(astica_generate_quality == 'fast') { delay = 9000; }
+                if(astica_generate_quality == 'faster') { delay = 3500; }
+                setTimeout(function() {
+                    document.getElementById("astica_demoSubmit_wrap").style.display = "block";
+                    document.getElementById("astica_ML_design_input_loading").style.display = "none";
+                }, delay);
+                for(let i=0; i<astica_quantity; i++) {
+                    asticaDesign_generate_image(
+                        astica_model_version,
+                        astica_prompt,
+                        astica_prompt_negative,
+                        astica_generate_quality,
+                        astica_generate_loseless,
+                        astica_moderate,
+                        function(result) {
+                            console.log("asticaDesign Result")
+                            console.log(result)
+                            var result_area = document.getElementById("astica_ML_result_area");
+                            if(result && typeof result.output != 'undefined') {
+                                var img = document.createElement("img");
+                                img.src = result.output;
+                                img.style.width = "200px";
+                                img.style.height = "200px";
+                                var a = document.createElement("a");
+                                a.href = result.output;
+                                a.style.marginRight = "5px";
+                                a.target = "_blank";
+                                a.appendChild(img);
+                                result_area.appendChild(a);
+                            } else if(result && typeof result.error != 'undefined') { 
+                                alert(result.error);
+                            }
+                        }
+                    );
+                }
+            }  
+        </script>
+                
+                
+        <hr><h2 style="margin-top:40px;">asticaDescribe - Image Generation API Usage:</h2>   
+        <div style="margin-bottom:5px;">
+            <a href="https://astica.ai/design/documentation/" target="_blank" title="asticaDesign Image Generation API Documentation" style="font-size:16px;">View asticaDesign API Documentation</a>
+        </div>
+        <pre>&lt;script src="<span class="color-lightblue bold">https://astica.ai/javascript-sdk/2024-01-31/astica.api.js</span>"&gt;&lt;/script&gt;
+&lt;script&gt;
+    asticaAPI_start('API KEY HERE'); //run at least once    
+
+    //Example 1  
+    asticaDesign_image('realistic neon cyberpunk cat', your_callback); //defaults to "faster" quality
+    
+    //Example 2:   
+    asticaDesign_image('realistic neon cyberpunk cat', "high", your_callback"); //specify "high" quality
+  
+    
+    //Example 4:      
+    //advanced with parameters:
+    asticaDesign_image(
+        '2.0_full', //modelVersion: 2.0_full
+        'realistic neon cyberpunk cat', //Image Prompt
+        '', //Optional Negative Image Prompt
+        'standard', //generate quality
+        '0', //generate lossless
+        '1', //moderate
+        your_callback, //Your Custom Callback function
+    ); 
+    
+    //Set Your Custom Callback Function 
+    function your_callback(data) { 
+        if(typeof data.error != 'undefined') { 
+            alert(data.error);
+        } else { 
+            console.log(data);
+            var image_url = data.output;
+            console.log("image URL:", image_url);
+        }     
+    }       
+&lt;/script&gt;
+</pre>  
+
+        
+        <!--- Demo assets; non-API related --->
+        <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">  
+        <a href="https://www.astica.org/?fr=vision-analyze"><img src="asset/img/icon.png" id="astica_icon"></a>
+        <link href="asset/css/style.css" rel="stylesheet">  
+        <link href="asset/js/demo.js" rel="stylesheet">    
+    </body>
+</html>
