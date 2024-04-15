@@ -3,61 +3,49 @@ import json
 import base64
 import os
 def get_image_base64_encoding(image_path: str) -> str:
-    """
-    Function to return the base64 string representation of an image
-    """
     with open(image_path, 'rb') as file:
         image_data = file.read()
     image_extension = os.path.splitext(image_path)[1]
-    base64_encoded = base64.b64encode(image_data).decode('utf-8')
-    return f"data:image/{image_extension[1:]};base64,{base64_encoded}"
+    return base64.b64encode(image_data).decode('utf-8')
     
 # API configurations
 asticaAPI_key = 'YOUR API KEY'  # visit https://astica.ai
+asticaAPI_key = '31e37e90d0b2090b30b32'  # visit https://astica.ai
 asticaAPI_timeout = 25 # in seconds. "gpt" or "gpt_detailed" require increased timeouts
 asticaAPI_endpoint = 'https://vision.astica.ai/describe'
-asticaAPI_modelVersion = '2.1_full' # '1.0_full', '2.0_full', or '2.1_full'
+asticaAPI_modelVersion = '2.5_full' # 1.0_full, 2.0_full, 2.1_full or 2.5_full
 
 if 1 == 1:
     asticaAPI_input = 'https://astica.ai/example/asticaVision_sample.jpg' # use https image input (faster)
 else:
     asticaAPI_input = get_image_base64_encoding('image.jpg')  # use base64 image input (slower)
 
-
 # vision parameters:  https://astica.ai/vision/documentation/#parameters
 asticaAPI_visionParams = 'gpt,describe,objects,faces'  # comma separated, defaults to "all". 
-asticaAPI_gpt_prompt = '' # only used if visionParams includes "gpt" or "gpt_detailed"
-asticaAPI_prompt_length = '90' # number of words in GPT response
-
-'''    
-    '1.0_full' supported visionParams:
+'''          
+    '2.5_full' supported visionParams: https://astica.ai/vision/documentation/#parameters
         describe
+        describe_all
+        gpt (or) gpt_detailed 
+        text_read
         objects
+        objects_custom
+        objects_color
         categories
         moderate
         tags
-        brands
         color
         faces
         celebrities
         landmarks
-        gpt               (Slow)
-        gpt_detailed      (Slower)
-
-    '2.0_full' supported visionParams:
-        describe
-        describe_all
-        objects
-        tags
-        describe_all 
-        text_read 
-        gpt             (Slow)
-        gpt_detailed    (Slower)
-        
-    '2.1_full' supported visionParams:
-        Supports all options 
-        
+        brands        
 '''
+
+#optional inputs:
+asticaAPI_gpt_prompt = '' # only used if visionParams includes "gpt" or "gpt_detailed"
+asticaAPI_prompt_length = 90 # number of words in GPT response
+
+asticaAPI_objects_custom_kw = '' # only used if visionParams includes "objects_custom" (v2.5_full or higher)
 
 # Define payload dictionary
 asticaAPI_payload = {
@@ -67,9 +55,8 @@ asticaAPI_payload = {
     'input': asticaAPI_input,
     'gpt_prompt': asticaAPI_gpt_prompt,
     'prompt_length': asticaAPI_prompt_length,
+    'objects_custom_kw': asticaAPI_objects_custom_kw
 }
-
-
 
 def asticaAPI(endpoint, payload, timeout):
     response = requests.post(endpoint, data=json.dumps(payload), timeout=timeout, headers={ 'Content-Type': 'application/json', })
@@ -79,8 +66,7 @@ def asticaAPI(endpoint, payload, timeout):
         return {'status': 'error', 'error': 'Failed to connect to the API.'}
 
 
-
-# call API function and store result
+# call API function 
 asticaAPI_result = asticaAPI(asticaAPI_endpoint, asticaAPI_payload, asticaAPI_timeout)
 
 # print API output
