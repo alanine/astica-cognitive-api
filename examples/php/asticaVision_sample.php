@@ -3,52 +3,44 @@
     $asticaAPI_timeout = 30; // seconds  Using "gpt" or "gpt_detailed" will increase response time.
 
     $asticaAPI_endpoint = 'https://vision.astica.ai/describe';
-    $asticaAPI_modelVersion = '2.1_full';  //1.0_full, 2.0_full, or 2.1_full 
-
-    //Input Method 1: https URL of a jpg/png image (faster)
-    $asticaAPI_input = 'https://astica.ai/example/asticaVision_sample.jpg'; 
+    $asticaAPI_modelVersion = '2.5_full';  //1.0_full, 2.0_full, 2.1_full or 2.5_full
     
-    /*
-    //Input Method 2: base64 encoded string of a local image (slower)  
-    $image_path = 'image.jpg';
-    $image_data = file_get_contents($image_path);
-    $image_extension = pathinfo($image_path, PATHINFO_EXTENSION);
-    $asticaAPI_input = 'data:image/' . $image_extension . ';base64,' . base64_encode($image_data);
-    */
+    if(1 == 2) {
+        //Input Method 1: https URL of a jpg/png image (faster)
+        $asticaAPI_input = 'https://astica.ai/example/asticaVision_sample.jpg'; 
+    } else {
+        //Input Method 2: base64 encoded string of a local image (slower)          
+        $image_path = 'image.jpg';
+        $image_data = file_get_contents($image_path);
+        $asticaAPI_input = base64_encode($image_data);
+    }
     
     //comma separated options; leave blank for all; note "gpt" and "gpt_detailed" are slower.
     //see all: https://astica.ai/vision/documentation/#parameters
     $asticaAPI_visionParams = 'gpt, describe, describe_all, tags, objects, faces'; 
+    $asticaAPI_visionParams = ''; 
     $asticaAPI_gpt_prompt = ''; // only used if visionParams includes "gpt" or "gpt_detailed"
     $asticaAPI_prompt_length = '90'; // number of words in GPT response
+    $objects_custom_kw = ''; // only used if visionParams includes "objects_custom" (v2.5_full or higher)
     
-    /*
-        '1.0_full' supported options:
-            description
+
+    /*        
+        '2.5_full' supported visionParams: https://astica.ai/vision/documentation/#parameters
+            describe
+            describe_all
+            gpt (or) gpt_detailed 
+            text_read
             objects
+            objects_custom
+            objects_color
             categories
             moderate
             tags
-            brands
             color
             faces
             celebrities
             landmarks
-            gpt              (Slow)
-            gpt_detailed     (Slower)
-            
-        '2.0_full' supported options:
-            description
-            objects
-            tags
-            describe_all 
-            text_read 
-            gpt             (Slow)
-            gpt_detailed    (Slower)
-            
-         '2.1_full' supported options:
-            Supports all options 
-            
+            brands        
     */
 
     // Define payload array
@@ -58,7 +50,8 @@
         'input' => $asticaAPI_input,
         'visionParams' => $asticaAPI_visionParams,
         'gpt_prompt' => $asticaAPI_gpt_prompt,
-        'prompt_length' => $asticaAPI_prompt_length
+        'prompt_length' => $asticaAPI_prompt_length,
+        'objects_custom_kw' => $objects_custom_kw
     ];
     
     // Call API function and store result
@@ -78,6 +71,7 @@
         echo '<hr><b>Additional Captions:</b> '.count($result['caption_list']);
         foreach($result['caption_list'] as $caption) {
             echo '<li>';
+            //echo 'Caption Text: '.$caption['text'];
             print_r($caption);
             echo '</li>';
         }
@@ -98,6 +92,28 @@
         foreach($result['objects'] as $object) {
             echo '<li>';
             print_r($object);
+            echo '</li>';
+        }
+    } 
+    //////////////////////////
+    ///////////Custom Objects
+    //////////////////////////
+    if(isset($result['objects_custom'])) {
+        echo '<hr><b>Custom Objects Found:</b> '.count($result['objects_custom']);
+        foreach($result['objects_custom'] as $object_custom) {
+            echo '<li>';
+            print_r($object_custom);
+            echo '</li>';
+        }
+    }
+    //////////////////////////
+    ///////////Colors Objects
+    //////////////////////////
+    if(isset($result['colors_object'])) {
+        echo '<hr><b>Object Colors:</b> '.count($result['colors_object']);
+        foreach($result['colors_object'] as $object_color) {
+            echo '<li>';
+            print_r($object_color);
             echo '</li>';
         }
     }
@@ -132,7 +148,7 @@
             echo '<li>';
             print_r($tags);
             echo '</li>';
-        }
+        } 
     }
     echo '<br><br><hr>API Usage: '.$result['astica']['api_qty'].' transactions';
     //////////////////////////
