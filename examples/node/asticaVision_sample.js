@@ -1,58 +1,44 @@
 const axios = require('axios'); //npm install axios
 const fs = require('fs'); // Only needed for Input Method 2
 
-
-//Input Method 1: https URL of a jpg/png image (faster)
-var astica_input = 'https://astica.ai/example/asticaVision_sample.jpg';
-
-/*
-    //Input Method 2: base64 encoded string of a local image (slower)  
+if (1 == 1) {    
+    //Input Method 1: https URL of a jpg/png image (faster)
+    var astica_input = 'https://astica.ai/example/asticaVision_sample.jpg';
+} else {    
+    //Input Method 2: base64 encoded string of a local image 
+    //Note:  typically slower than method 1 due to client connection speed
     var path_to_local_file = 'image.jpg';
-    var image_data = fs.readFileSync(path_to_local_file);
-    var image_extension = path_to_local_file.split('.').pop();
-    //For now, let's make sure to prepend appropriately with: "data:image/extension_here;base64" 
-    var astica_input = `data:image/${image_extension};base64,${image_data.toString('base64')}`;
-*/
-
+    var astica_input = fs.readFileSync(path_to_local_file).toString('base64');
+}
 
 const requestData = {
   tkn: 'API KEY HERE', // visit https://astica.ai
-  modelVersion: '2.1_full', // 1.0_full, 2.0_full, or 2.1_full
-  input: astica_input,
-  visionParams: 'gpt, describe, describe_all, tags, faces', //comma separated, defaults to all. See below for more
+  modelVersion: '2.5_full', //1.0_full, 2.0_full, 2.1_full or 2.5_full
+  input: astica_input, //base64 string or https url
+  visionParams: 'gpt, describe, describe_all, tags, faces', //comma separated, leave blank for all. See below for more
   gpt_prompt: '', // only used if visionParams includes "gpt" or "gpt_detailed"
-  prompt_length: 95 // number of words in GPT response
+  prompt_length: 95, // number of words in GPT response
+  objects_custom_kw: '' // only used if visionParams includes "objects_custom" (v2.5_full or higher)
 };
-/*    
-    #visionParams:  https://astica.ai/vision/documentation/#parameters
-    '1.0_full' supported options:
-        description
+
+/*        
+    '2.5_full' supported visionParams: https://astica.ai/vision/documentation/#parameters
+        describe
+        describe_all
+        gpt (or) gpt_detailed 
+        text_read
         objects
+        objects_custom
+        objects_color
         categories
         moderate
         tags
-        brands
         color
         faces
         celebrities
         landmarks
-        gpt new (Slow - be patient)
-        gpt_detailed new (Much Slower)
-        
-    '2.0_full' supported options:
-        description
-        objects
-        tags
-        describe_all new
-        text_read new
-        gpt new (Slow - be patient)
-        gpt_detailed new (Much Slower)
-        
-     '2.0_full' supported options:
-        Supports all options 
-        
+        brands        
 */
-
 
 axios({
     method: 'post',
@@ -62,7 +48,7 @@ axios({
         'Content-Type': 'application/json',
     },
 }).then((response) => {
-    console.log(response.data);
+    console.log(JSON.stringify(response.data));
 }).catch((error) => {
     console.log(error);
 });
