@@ -10,7 +10,6 @@ def get_image_base64_encoding(image_path: str) -> str:
     
 # API configurations
 asticaAPI_key = 'YOUR API KEY'  # visit https://astica.ai
-asticaAPI_key = '31e37e90d0b2090b30b32'  # visit https://astica.ai
 asticaAPI_timeout = 25 # in seconds. "gpt" or "gpt_detailed" require increased timeouts
 asticaAPI_endpoint = 'https://vision.astica.ai/describe'
 asticaAPI_modelVersion = '2.5_full' # 1.0_full, 2.0_full, 2.1_full or 2.5_full
