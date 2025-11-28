@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>astica Voice API – Web Demo (Streaming TTS)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap 5 CSS (CDN) -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+
+  <style>
+    body {
+      padding-top: 20px;
+      padding-bottom: 40px;
+    }
+    textarea {
+      resize: vertical;
+    }
+    pre {
+      max-height: 400px;
+      overflow: auto;
+      font-size: 0.85rem;
+      background: #f8f9fa;
+      border-radius: 0.25rem;
+      padding: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header class="mb-4">
+    <h1 class="h3">astica Voice API – Web Demo (Streaming TTS)</h1>
+    <p class="text-muted mb-1">
+      Simple Bootstrap 5 page demonstrating:
+      <strong>Generate (TTS)</strong>, <strong>Voice List</strong>, and <strong>Voice Clones</strong>.
+    </p>
+    <p class="mb-0">
+      Endpoint: <code>https://voice.astica.ai</code><br/>
+      Obtain free API key:
+      <a href="https://astica.ai/api-keys/" target="_blank" rel="noopener">
+        https://astica.ai/api-keys/
+      </a>
+    </p>
+  </header>
+
+  <!-- Global API key input -->
+  <section class="mb-4">
+    <div class="card">
+      <div class="card-body">
+        <label for="apiKeyInput" class="form-label">
+          API Key
+          <span class="text-muted">(stored locally in this page only)</span>
+        </label>
+        <input
+          type="password"
+          class="form-control"
+          id="apiKeyInput"
+          placeholder="Paste your astica API key here"
+        />
+        <div class="form-text">
+          Required for all API calls on this page.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs mb-3" id="mainTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link active"
+        id="tab-generate"
+        data-bs-toggle="tab"
+        data-bs-target="#pane-generate"
+        type="button"
+        role="tab"
+      >
+        Generate (TTS)
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link"
+        id="tab-voicelist"
+        data-bs-toggle="tab"
+        data-bs-target="#pane-voicelist"
+        type="button"
+        role="tab"
+      >
+        Voice List
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link"
+        id="tab-voiceclones"
+        data-bs-toggle="tab"
+        data-bs-target="#pane-voiceclones"
+        type="button"
+        role="tab"
+      >
+        Voice Clones
+      </button>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+
+    <!-- Generate (TTS) tab -->
+    <div
+      class="tab-pane fade show active"
+      id="pane-generate"
+      role="tabpanel"
+      aria-labelledby="tab-generate"
+    >
+      <div class="card">
+        <div class="card-body">
+          <h2 class="h5">Generate Speech (Streaming via WebSocket)</h2>
+          <p class="text-muted">
+            This demo uses the <code>/ws/api</code> WebSocket endpoint for streaming TTS:
+          </p>
+          <ul class="text-muted">
+            <li><strong>Expressive (GPU)</strong> &amp; <strong>Neural (Azure)</strong> voices: streamed as raw PCM (<code>format: "pcm_s16le"</code>) and played in real-time with Web Audio.</li>
+            <li><strong>Programmable (OpenAI)</strong> voices: streamed as WAV bytes (<code>format: "wav"</code>); decoded and played once the full clip is received.</li>
+            <li>At the end of each request, a full WAV is attached to the audio player and download link for replay.</li>
+          </ul>
+
+          <!-- TTS form -->
+          <form id="ttsForm" class="mb-3">
+            <div class="mb-3">
+              <label for="ttsVoiceInput" class="form-label">
+                Voice
+              </label>
+              <input
+                type="text"
+                id="ttsVoiceInput"
+                class="form-control"
+                value="expressive_sarah"
+              />
+              <div class="form-text">
+                Default: <code>expressive_sarah</code><br/>
+                Other examples:
+                <code>prog_avery</code> (programmable),
+                <code>neural_jennifer</code> (neural)<br/>
+                View all voices:
+                <a href="https://astica.ai/voice/text-to-speech/" target="_blank" rel="noopener">
+                  https://astica.ai/voice/text-to-speech/
+                </a>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="ttsTextInput" class="form-label">
+                Text to synthesize
+              </label>
+              <textarea
+                id="ttsTextInput"
+                class="form-control"
+                rows="4"
+              >Hello from astica! This is a speech generation example from a simple Bootstrap page.</textarea>
+            </div>
+
+            <div class="mb-3 form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="ttsTimestampsCheck"
+                checked
+              />
+              <label class="form-check-label" for="ttsTimestampsCheck">
+                Include word timestamps (where supported)
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="ttsSubmitBtn">
+              Generate Speech
+            </button>
+            <span id="ttsStatusText" class="ms-2 text-muted"></span>
+          </form>
+
+          <!-- Audio player + download link -->
+          <div class="mb-3">
+            <label class="form-label">Audio Output</label>
+            <div class="mb-2">
+              <audio id="ttsAudioPlayer" controls></audio>
+            </div>
+            <a id="ttsDownloadLink" href="#" download="astica-tts.wav" class="d-none">Download WAV</a>
+            <div class="form-text">
+              For expressive &amp; neural voices you will hear low-latency streaming audio via Web Audio;
+              programmable voices are streamed as WAV and played after decoding.
+            </div>
+          </div>
+
+          <!-- Raw JSON / summary output -->
+          <div>
+            <label class="form-label">Response / Summary</label>
+            <pre id="ttsJsonOutput" class="mb-0">{}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Voice List tab -->
+    <div
+      class="tab-pane fade"
+      id="pane-voicelist"
+      role="tabpanel"
+      aria-labelledby="tab-voicelist"
+    >
+      <div class="card">
+        <div class="card-body">
+          <h2 class="h5">Voice List</h2>
+          <p class="text-muted">
+            Calls <code>/api/voice_list</code> to retrieve public expressive voices and metadata.
+          </p>
+
+          <div class="mb-3">
+            <button class="btn btn-primary" id="voiceListFetchBtn">
+              Fetch Voice List
+            </button>
+            <span id="voiceListStatusText" class="ms-2 text-muted"></span>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Summary (first 10 voices)</label>
+            <ul id="voiceListSummary" class="list-group mb-3"></ul>
+          </div>
+
+          <div>
+            <label class="form-label">Raw JSON Response</label>
+            <pre id="voiceListJsonOutput" class="mb-0">{}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Voice Clones tab -->
+    <div
+      class="tab-pane fade"
+      id="pane-voiceclones"
+      role="tabpanel"
+      aria-labelledby="tab-voiceclones"
+    >
+      <div class="card">
+        <div class="card-body">
+          <h2 class="h5">Voice Clones</h2>
+          <p class="text-muted">
+            Demonstrates creating and listing user‑specific voice clones.
+            (You can upload a short audio sample from your microphone.)
+          </p>
+
+          <!-- Create clone section -->
+          <h3 class="h6 mt-2">Create New Clone</h3>
+          <form id="cloneCreateForm" class="mb-3">
+            <div class="mb-3">
+              <label for="cloneNicknameInput" class="form-label">
+                Nickname
+              </label>
+              <input
+                type="text"
+                id="cloneNicknameInput"
+                class="form-control"
+                placeholder="My custom voice"
+              />
+              <div class="form-text">
+                Optional label for your clone. If left blank, the API will assign a default like "Clone 1".
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="cloneAudioInput" class="form-label">
+                Audio sample (WAV/MP3/M4A/OGG/etc.)
+              </label>
+              <input
+                type="file"
+                id="cloneAudioInput"
+                class="form-control"
+                accept="audio/*"
+              />
+              <div class="form-text">
+                Short, clear speech (a few seconds) works best.
+                The server will validate duration and format.
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="cloneCreateBtn">
+              Upload &amp; Create Clone
+            </button>
+            <span id="cloneCreateStatusText" class="ms-2 text-muted"></span>
+          </form>
+
+          <!-- List clones -->
+          <h3 class="h6 mt-4">List Existing Clones</h3>
+          <div class="mb-2">
+            <button class="btn btn-secondary btn-sm" id="cloneListFetchBtn">
+              Refresh Clone List
+            </button>
+            <span id="cloneListStatusText" class="ms-2 text-muted"></span>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Summary</label>
+            <ul id="cloneListSummary" class="list-group mb-3"></ul>
+          </div>
+
+          <div>
+            <label class="form-label">Raw JSON Response</label>
+            <pre id="cloneListJsonOutput" class="mb-0">{}</pre>
+          </div>
+
+          <p class="mt-3 text-muted small">
+            Deleting clones: this demo only creates and lists clones.
+            For deletion, use your backend or the astica dashboard.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.tab-content -->
+</div><!-- /.container -->
+
+<!-- Bootstrap 5 JS (for tabs) -->
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"
+></script>
+
+<script>
+/**
+ * Simple front-end client for astica Voice API
+ * ============================================
+ * Uses:
+ *   - fetch (for REST: voice_list, voice_clone, voice_clone_list)
+ *   - WebSockets + Web Audio API for streaming TTS via /ws/api
+ */
+
+document.addEventListener("DOMContentLoaded", () => {
+  // ---------------------------------------------------------------------------
+  // Global configuration
+  // ---------------------------------------------------------------------------
+  const ASTICA_API_BASE = "https://voice.astica.ai";
+  const ASTICA_WS_URL   = "wss://voice.astica.ai/ws/api";
+
+  const apiKeyInput = document.getElementById("apiKeyInput");
+
+  // Restore previously used key
+  const storedKey = localStorage.getItem("astica_api_key");
+  if (storedKey) {
+    apiKeyInput.value = storedKey;
+  }
+
+  function getApiKeyOrAlert() {
+    const key = apiKeyInput.value.trim();
+    if (!key) {
+      alert("Please enter your API key at the top of the page.");
+      return null;
+    }
+    localStorage.setItem("astica_api_key", key);
+    return key;
+  }
+
+  // Generic JSON POST helper (REST)
+  async function postJson(path, bodyObj) {
+    const url = ASTICA_API_BASE + path;
+    const resp = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bodyObj)
+    });
+
+    let data;
+    try {
+      data = await resp.json();
+    } catch (e) {
+      const text = await resp.text().catch(() => "");
+      throw new Error(`Failed to parse JSON. HTTP ${resp.status}. Body: ${text}`);
+    }
+
+    if (!resp.ok) {
+      const msg = data && data.error ? data.error : `HTTP ${resp.status}`;
+      const err = new Error(`Server error: ${msg}`);
+      err.httpStatus = resp.status;
+      err.data = data;
+      throw err;
+    }
+
+    return data;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Expressive vs Neural/Programmable helper (just for labeling)
+  // ---------------------------------------------------------------------------
+  function detectEngineFromVoiceString(voiceRaw) {
+    const v = (voiceRaw || "").trim().toLowerCase();
+    if (!v) return "expressive";
+    if (v.startsWith("neural_")) return "neural";
+    if (v.startsWith("prog_")) return "programmable";
+    if (v.startsWith("expressive_")) return "expressive";
+    if (/^clone[_-]?[0-9]+$/.test(v)) return "expressive";
+    if (/^[0-9]+$/.test(v)) return "expressive";
+    return "expressive";
+  }
+
+  // ---------------------------------------------------------------------------
+  // Shared Web Audio context
+  // ---------------------------------------------------------------------------
+  let sharedAudioCtx = null;
+  async function ensureAudioContext() {
+    if (!sharedAudioCtx) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) {
+        throw new Error("Web Audio API not supported in this browser.");
+      }
+      sharedAudioCtx = new AudioCtx();
+    }
+    await sharedAudioCtx.resume().catch(() => {});
+    return sharedAudioCtx;
+  }
+
+  // ---------------------------------------------------------------------------
+  // 1) Generate (TTS) via WebSocket streaming
+  // ---------------------------------------------------------------------------
+  const ttsForm = document.getElementById("ttsForm");
+  const ttsVoiceInput = document.getElementById("ttsVoiceInput");
+  const ttsTextInput = document.getElementById("ttsTextInput");
+  const ttsTimestampsCheck = document.getElementById("ttsTimestampsCheck");
+  const ttsSubmitBtn = document.getElementById("ttsSubmitBtn");
+  const ttsStatusText = document.getElementById("ttsStatusText");
+  const ttsAudioPlayer = document.getElementById("ttsAudioPlayer");
+  const ttsDownloadLink = document.getElementById("ttsDownloadLink");
+  const ttsJsonOutput = document.getElementById("ttsJsonOutput");
+
+  let ttsObjectUrl = null;
+
+  function b64ToUint8Array(b64) {
+    const bin = atob(b64);
+    const len = bin.length;
+    const arr = new Uint8Array(len);
+    for (let i = 0; i < len; i++) arr[i] = bin.charCodeAt(i);
+    return arr;
+  }
+
+  function int16ToFloat32(int16) {
+    const out = new Float32Array(int16.length);
+    for (let i = 0; i < int16.length; i++) {
+      out[i] = int16[i] / 32768; // [-1, 1]
+    }
+    return out;
+  }
+
+  function buildWavFromPcm(pcmU8, sampleRate, numChannels = 1, bitsPerSample = 16) {
+    const dataLen = pcmU8.byteLength;
+    const header = new ArrayBuffer(44);
+    const view = new DataView(header);
+    const blockAlign = (numChannels * bitsPerSample) / 8;
+    const byteRate = sampleRate * blockAlign;
+    const riffSize = 36 + dataLen;
+
+    let pos = 0;
+    function writeString(s) {
+      for (let i = 0; i < s.length; i++) {
+        view.setUint8(pos++, s.charCodeAt(i));
+      }
+    }
+
+    writeString("RIFF");
+    view.setUint32(pos, riffSize, true); pos += 4;
+    writeString("WAVE");
+    writeString("fmt ");
+    view.setUint32(pos, 16, true); pos += 4;              // Subchunk1Size
+    view.setUint16(pos, 1, true); pos += 2;               // PCM
+    view.setUint16(pos, numChannels, true); pos += 2;
+    view.setUint32(pos, sampleRate, true); pos += 4;
+    view.setUint32(pos, byteRate, true); pos += 4;
+    view.setUint16(pos, blockAlign, true); pos += 2;
+    view.setUint16(pos, bitsPerSample, true); pos += 2;
+    writeString("data");
+    view.setUint32(pos, dataLen, true); pos += 4;
+
+    const wavBytes = new Uint8Array(44 + dataLen);
+    wavBytes.set(new Uint8Array(header), 0);
+    wavBytes.set(pcmU8, 44);
+    return wavBytes;
+  }
+
+  /**
+   * Stream TTS via WebSocket /ws/api.
+   * - Plays expressive + neural (PCM) in real-time.
+   * - Plays programmable (WAV) after full clip is received.
+   * - Returns full WAV bytes + final tts_complete message.
+   */
+  async function runTtsOverWebSocket({ apiKey, text, voice, includeTimestamps }) {
+    const ws = new WebSocket(ASTICA_WS_URL);
+    const requestId = "webdemo-" + Math.random().toString(16).slice(2);
+
+    const EXPRESSIVE_SAMPLE_RATE = 24000;
+    let pcmChunks = [];
+    let pcmTotalLen = 0;
+    let wavChunks = [];
+    let wavTotalLen = 0;
+
+    let startedPcmPlayback = false;
+    let nextPcmPlayTime = 0;
+    let firstPcmWallStart = null;
+    let pcmSampleRate = EXPRESSIVE_SAMPLE_RATE;
+
+    let finalCompleteMsg = null;
+
+    const audioCtx = await ensureAudioContext();
+
+    function schedulePcmChunk(pcmBytes, sampleRate) {
+      if (!pcmBytes || !pcmBytes.length) return;
+
+      const int16 = new Int16Array(
+        pcmBytes.buffer,
+        pcmBytes.byteOffset,
+        Math.floor(pcmBytes.byteLength / 2)
+      );
+      const float32 = int16ToFloat32(int16);
+
+      const sr = Number(sampleRate || pcmSampleRate) || pcmSampleRate;
+      pcmSampleRate = sr;
+
+      const buffer = audioCtx.createBuffer(1, float32.length, sr);
+      buffer.getChannelData(0).set(float32);
+
+      if (!startedPcmPlayback) {
+        const delay = 0.05;
+        nextPcmPlayTime = audioCtx.currentTime + delay;
+        firstPcmWallStart = performance.now() + delay * 1000;
+        startedPcmPlayback = true;
+      }
+
+      const src = audioCtx.createBufferSource();
+      src.buffer = buffer;
+      src.connect(audioCtx.destination);
+      src.start(nextPcmPlayTime);
+      nextPcmPlayTime += buffer.duration;
+    }
+
+    return new Promise((resolve, reject) => {
+      ws.onopen = () => {
+        const req = {
+          type: "tts",
+          request_id: requestId,
+          tkn: apiKey,
+          text,
+          voice,
+          stream: true,
+          timestamps: !!includeTimestamps,
+          lang: "en-US",
+          prompt: ""
+        };
+        ws.send(JSON.stringify(req));
+      };
+
+      ws.onerror = (err) => {
+        reject(new Error("WebSocket error: " + (err.message || err)));
+      };
+
+      ws.onclose = (evt) => {
+        if (!finalCompleteMsg) {
+          reject(new Error(`WebSocket closed before completion (${evt.code} ${evt.reason || ""})`));
+        }
+      };
+
+      ws.onmessage = async (event) => {
+        let msg;
+        try {
+          msg = JSON.parse(event.data);
+        } catch {
+          console.warn("[TTS-WS] Non-JSON message:", event.data);
+          return;
+        }
+
+        if (msg.type === "tts_ack") {
+          // Optional: log ack
+          return;
+        }
+
+        if (msg.type === "tts_error") {
+          if (msg.request_id && msg.request_id !== requestId) return;
+          reject(new Error("TTS error: " + (msg.error || msg.code || "unknown")));
+          try { ws.close(); } catch {}
+          return;
+        }
+
+        if (msg.type === "tts_audio") {
+          if (msg.request_id !== requestId) return;
+          if (!msg.chunk_b64) return;
+
+          const format = msg.format || "pcm_s16le";
+          const u8 = b64ToUint8Array(msg.chunk_b64);
+
+          if (format === "pcm_s16le") {
+            // Expressive + Neural: raw PCM
+            pcmChunks.push(u8);
+            pcmTotalLen += u8.length;
+            schedulePcmChunk(u8, msg.sample_rate || EXPRESSIVE_SAMPLE_RATE);
+            return;
+          }
+
+          if (format === "wav") {
+            // Programmable: accumulate WAV bytes
+            wavChunks.push(u8);
+            wavTotalLen += u8.length;
+            return;
+          }
+
+          console.warn("[TTS-WS] Unknown audio format:", format, msg);
+          return;
+        }
+
+        if (msg.type === "tts_audio_end") {
+          // For PCM, playback will naturally drain; for WAV we decode at completion below.
+          return;
+        }
+
+        if (msg.type === "tts_complete") {
+          if (msg.request_id !== requestId) return;
+          finalCompleteMsg = msg;
+
+          try {
+            let finalWavBytes;
+            let finalFormat = "wav";
+            let sampleRate = EXPRESSIVE_SAMPLE_RATE;
+
+            if (wavChunks.length) {
+              // Programmable (OpenAI) path: chunks are already WAV bytes
+              const full = new Uint8Array(wavTotalLen);
+              let offset = 0;
+              for (const c of wavChunks) {
+                full.set(c, offset);
+                offset += c.length;
+              }
+              finalWavBytes = full;
+
+              // Decode & play once:
+              try {
+                const audioBuffer = await audioCtx.decodeAudioData(
+                  finalWavBytes.buffer.slice(
+                    finalWavBytes.byteOffset,
+                    finalWavBytes.byteOffset + finalWavBytes.byteLength
+                  )
+                );
+                const src = audioCtx.createBufferSource();
+                src.buffer = audioBuffer;
+                src.connect(audioCtx.destination);
+                src.start();
+              } catch (e) {
+                console.error("[TTS-WS] decodeAudioData error (programmable):", e);
+              }
+            } else if (pcmChunks.length) {
+              // Expressive / Neural PCM path -> wrap into WAV for download/player
+              const totalBytes = pcmTotalLen;
+              const pcmAll = new Uint8Array(totalBytes);
+              let offset = 0;
+              for (const c of pcmChunks) {
+                pcmAll.set(c, offset);
+                offset += c.length;
+              }
+              // sampleRate from meta or default 24k
+              const meta = msg.meta || {};
+              sampleRate = Number(meta.sample_rate || EXPRESSIVE_SAMPLE_RATE) || EXPRESSIVE_SAMPLE_RATE;
+              finalWavBytes = buildWavFromPcm(pcmAll, sampleRate);
+            } else {
+              throw new Error("No audio chunks received.");
+            }
+
+            resolve({
+              finalMessage: msg,
+              audioBuffer: finalWavBytes,
+              audioFormat: finalFormat,
+              sampleRate
+            });
+          } catch (e) {
+            reject(e);
+          } finally {
+            try { ws.close(); } catch {}
+          }
+        }
+      };
+    });
+  }
+
+  ttsForm.addEventListener("submit", async (evt) => {
+    evt.preventDefault();
+
+    const apiKey = getApiKeyOrAlert();
+    if (!apiKey) return;
+
+    const text = ttsTextInput.value.trim();
+    const voice = ttsVoiceInput.value.trim() || "expressive_sarah";
+    const includeTimestamps = ttsTimestampsCheck.checked;
+
+    if (!text) {
+      alert("Please enter some text to synthesize.");
+      return;
+    }
+
+    // Reset UI
+    ttsSubmitBtn.disabled = true;
+    ttsStatusText.textContent = "Streaming via WebSocket...";
+    ttsJsonOutput.textContent = "{}";
+    ttsAudioPlayer.removeAttribute("src");
+    ttsDownloadLink.classList.add("d-none");
+    if (ttsObjectUrl) {
+      URL.revokeObjectURL(ttsObjectUrl);
+      ttsObjectUrl = null;
+    }
+
+    const engine = detectEngineFromVoiceString(voice);
+
+    try {
+      const result = await runTtsOverWebSocket({
+        apiKey,
+        text,
+        voice,
+        includeTimestamps
+      });
+
+      // Show server's final tts_complete message as JSON
+      ttsJsonOutput.textContent = JSON.stringify(result.finalMessage, null, 2);
+
+      // Attach final WAV to audio player and download link
+      const wavBlob = new Blob([result.audioBuffer], { type: "audio/wav" });
+      ttsObjectUrl = URL.createObjectURL(wavBlob);
+      ttsAudioPlayer.src = ttsObjectUrl;
+      ttsDownloadLink.href = ttsObjectUrl;
+      ttsDownloadLink.download = "astica-tts.wav";
+      ttsDownloadLink.classList.remove("d-none");
+
+      // Autoplay once (programmable) or let the user replay (expressive/neural may have already streamed)
+      if (engine !== "expressive") {
+        ttsAudioPlayer.play().catch(() => {});
+      }
+
+      ttsStatusText.textContent =
+        `Done – engine=${engine}, voice=${result.finalMessage.voice}, units=${result.finalMessage.cost_units}`;
+    } catch (err) {
+      console.error("TTS WS error:", err);
+      ttsStatusText.textContent = "Error – see console for details.";
+      ttsJsonOutput.textContent = String(err.message || err);
+    } finally {
+      ttsSubmitBtn.disabled = false;
+    }
+  });
+
+  // ---------------------------------------------------------------------------
+  // 2) Voice List (REST)
+  // ---------------------------------------------------------------------------
+  const voiceListFetchBtn = document.getElementById("voiceListFetchBtn");
+  const voiceListStatusText = document.getElementById("voiceListStatusText");
+  const voiceListSummary = document.getElementById("voiceListSummary");
+  const voiceListJsonOutput = document.getElementById("voiceListJsonOutput");
+
+  voiceListFetchBtn.addEventListener("click", async () => {
+    const apiKey = getApiKeyOrAlert();
+    if (!apiKey) return;
+
+    voiceListFetchBtn.disabled = true;
+    voiceListStatusText.textContent = "Fetching voice list...";
+    voiceListSummary.innerHTML = "";
+    voiceListJsonOutput.textContent = "{}";
+
+    try {
+      const data = await postJson("/api/voice_list", { tkn: apiKey });
+      voiceListJsonOutput.textContent = JSON.stringify(data, null, 2);
+
+      if (data.status !== "success") {
+        voiceListStatusText.textContent = `API status: ${data.status || "unknown"}`;
+        return;
+      }
+
+      const voices = data.voices || [];
+      voiceListStatusText.textContent = `Received ${voices.length} voices.`;
+
+      voices.slice(0, 10).forEach((v) => {
+        const li = document.createElement("li");
+        li.className = "list-group-item";
+        const alias = v.alias || "";
+        const displayName = v.display_name || "";
+        const label = v.label || "";
+        li.textContent = `${alias} | ${displayName} | ${label}`;
+        voiceListSummary.appendChild(li);
+      });
+    } catch (err) {
+      console.error("voice_list error:", err);
+      voiceListStatusText.textContent = "Error – see console for details.";
+      voiceListJsonOutput.textContent = String(err.message || err);
+    } finally {
+      voiceListFetchBtn.disabled = false;
+    }
+  });
+
+  // ---------------------------------------------------------------------------
+  // 3) Voice Clones (REST)
+  // ---------------------------------------------------------------------------
+  const cloneCreateForm = document.getElementById("cloneCreateForm");
+  const cloneNicknameInput = document.getElementById("cloneNicknameInput");
+  const cloneAudioInput = document.getElementById("cloneAudioInput");
+  const cloneCreateBtn = document.getElementById("cloneCreateBtn");
+  const cloneCreateStatusText = document.getElementById("cloneCreateStatusText");
+
+  const cloneListFetchBtn = document.getElementById("cloneListFetchBtn");
+  const cloneListStatusText = document.getElementById("cloneListStatusText");
+  const cloneListSummary = document.getElementById("cloneListSummary");
+  const cloneListJsonOutput = document.getElementById("cloneListJsonOutput");
+
+  // Create clone
+  cloneCreateForm.addEventListener("submit", async (evt) => {
+    evt.preventDefault();
+
+    const apiKey = getApiKeyOrAlert();
+    if (!apiKey) return;
+
+    const file = cloneAudioInput.files[0];
+    if (!file) {
+      alert("Please choose an audio file for the clone.");
+      return;
+    }
+
+    const nickname = cloneNicknameInput.value.trim();
+
+    cloneCreateBtn.disabled = true;
+    cloneCreateStatusText.textContent = "Uploading & creating clone...";
+
+    try {
+      const url = ASTICA_API_BASE + "/api/voice_clone";
+      const formData = new FormData();
+      formData.append("tkn", apiKey);
+      if (nickname) formData.append("nickname", nickname);
+      formData.append("audio", file, file.name || "clone_audio");
+
+      const resp = await fetch(url, { method: "POST", body: formData });
+      let data;
+      try {
+        data = await resp.json();
+      } catch (e) {
+        const text = await resp.text().catch(() => "");
+        throw new Error(`Failed to parse JSON (status ${resp.status}): ${text}`);
+      }
+
+      if (!resp.ok) {
+        const msg = data && data.error ? data.error : `HTTP ${resp.status}`;
+        throw new Error(`Server error: ${msg}`);
+      }
+
+      cloneCreateStatusText.textContent = "Clone queued successfully!";
+      cloneListJsonOutput.textContent = JSON.stringify(data, null, 2);
+    } catch (err) {
+      console.error("voice_clone create error:", err);
+      cloneCreateStatusText.textContent = "Error – see console for details.";
+    } finally {
+      cloneCreateBtn.disabled = false;
+    }
+  });
+
+  // List clones
+  async function fetchCloneList() {
+    const apiKey = getApiKeyOrAlert();
+    if (!apiKey) return;
+
+    cloneListFetchBtn.disabled = true;
+    cloneListStatusText.textContent = "Fetching clone list...";
+    cloneListSummary.innerHTML = "";
+    cloneListJsonOutput.textContent = "{}";
+
+    try {
+      const data = await postJson("/api/voice_clone_list", { tkn: apiKey });
+      cloneListJsonOutput.textContent = JSON.stringify(data, null, 2);
+
+      if (data.status !== "success") {
+        cloneListStatusText.textContent = `API status: ${data.status || "unknown"}`;
+        return;
+      }
+
+      const clones = data.clones || [];
+      cloneListStatusText.textContent = `Found ${clones.length} clones.`;
+
+      clones.forEach((c) => {
+        const li = document.createElement("li");
+        li.className = "list-group-item";
+        const cid = c.clone_id;
+        const nickname = c.nickname || "";
+        const status = c.status;
+        const error = c.error || "";
+        li.textContent = `clone_id=${cid}, nickname="${nickname}", status=${status}, error="${error}"`;
+        cloneListSummary.appendChild(li);
+      });
+    } catch (err) {
+      console.error("voice_clone_list error:", err);
+      cloneListStatusText.textContent = "Error – see console for details.";
+      cloneListJsonOutput.textContent = String(err.message || err);
+    } finally {
+      cloneListFetchBtn.disabled = false;
+    }
+  }
+
+  cloneListFetchBtn.addEventListener("click", fetchCloneList);
+
+  // Auto-fetch clones when clones tab is first shown
+  const voiceClonesTabBtn = document.getElementById("tab-voiceclones");
+  let clonesTabLoadedOnce = false;
+  voiceClonesTabBtn.addEventListener("shown.bs.tab", () => {
+    if (!clonesTabLoadedOnce) {
+      clonesTabLoadedOnce = true;
+      fetchCloneList().catch(() => {});
+    }
+  });
+});
+</script>
+
+</body>
+</html>

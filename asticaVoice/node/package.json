@@ -1,0 +1,22 @@
+{
+  "name": "astica-voice-node-examples",
+  "version": "1.0.0",
+  "description": "Example Node.js clients for astica Voice API (REST + WebSocket)",
+  "main": "asticaVoice_tts_nonstream.js",
+  "scripts": {
+    "tts:nonstream": "node asticaVoice_tts_nonstream.js",
+    "tts:stream:http": "node asticaVoice_tts_stream_http.js",
+    "tts:stream:ws": "node asticaVoice_tts_stream_ws.js",
+    "voice:list": "node asticaVoice_voice_list.js",
+    "voice:clones:list": "node asticaVoice_voice_clones_list.js",
+    "voice:clone:create": "node asticaVoice_voice_clone_create.js",
+    "voice:clone:delete": "node asticaVoice_voice_clone_delete.js"
+  },
+  "dependencies": {
+    "speaker": "^0.5.5",
+    "ws": "^8.18.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
